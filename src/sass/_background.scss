@@ -1,0 +1,38 @@
+.bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	&-master {
+		grid-area: 2 / 2 / -2 / -2;
+		background-color: map-get($colors, 'secondary');
+	}
+	&_stacker {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		top: 0;
+		height: 100%;
+		z-index: 1;
+		.stacker {
+			position: absolute;
+			width: 100%;
+			left: 0;
+			top: 0;
+			height: 100%;
+			&_1 {
+				z-index: 1;
+				background: #030303;
+			}
+			&_2 {
+				z-index: 2;
+				background-image: $fixedGradient;
+			}
+			&_3 {
+				z-index: 3;
+				background: #030303;
+			}
+		}
+	}
+}

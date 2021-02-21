@@ -1,0 +1,35 @@
+$contactMethods: 3;
+
+.contact {
+	grid-template: ($pageMargin + $topbarHeight 1fr $pageMargin)/ ($pageMargin
+				1fr $pageMargin);
+
+	&_content {
+		grid-area: 2 / 2 / span 1 / span 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		z-index: 2;
+	}
+	&_bg {
+		z-index: 1;
+		grid-area: 1 / 1 / -1 / -1;
+		background-color: #030303;
+	}
+	&_methods {
+		display: flex;
+		.column {
+			display: flex;
+			flex-direction: column;
+			&:first-of-type {
+				text-align: end;
+				margin-right: 0.5rem;
+			}
+			p,
+			strong {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
+}

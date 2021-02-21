@@ -1,12 +1,13 @@
-import './App.css';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import Home from './containers/Home';
 import About from './containers/About';
 import Projects from './containers/Projects';
 import Contact from './containers/Contact';
-import MainMenu from './components/UI/MainMenu';
+import MainMenu from './components/UI/Navigation/MainMenu/MainMenu';
+import Particles from './components/UI/Particles';
 import Background from './components/UI/Background';
 import React from 'react';
+import ComponentLoader from './components/ComponentLoader';
 
 const routes = [
 	{ name: 'Home', path: '/', Component: Home },
@@ -35,7 +36,9 @@ const App = () => {
 		<>
 			<MainMenu routes={routes} />
 			<Switch>{render}</Switch>
-			<Background />
+			<div className='bg bg-master'></div>
+			<ComponentLoader />
+			<Particles />
 		</>
 	);
 };

@@ -1,7 +1,9 @@
-import image from '../assets/landing.png';
+import image from '../assets/landing.webp';
 import React from 'react';
 import gsap, { Power4 } from 'gsap';
 import Storage from '../util/AnimStorage';
+import { AnimateBackground } from '../util/Background/Background';
+import { withLastLocation } from 'react-router-last-location';
 
 const getShiftLength = (elem, direction) => {
 	const { x, y, width, height, bottom } = elem.getBoundingClientRect();
@@ -34,12 +36,11 @@ class Home extends React.Component {
 		const { bg, circle, img, content } = this.refs;
 		gsap.defaults({ ease: Power4.easeIn });
 
-		return gsap
-			.timeline({ paused: true })
-			.to(bg, {
-				scaleX: 5, //getShiftLength(bg, 'right'),
-				duration: 1,
-			})
+		return new AnimateBackground({
+			tl: gsap.timeline({ paused: true }),
+		})
+			.scaleUpX()
+			.getTl()
 			.to(
 				circle,
 				{
@@ -62,18 +63,20 @@ class Home extends React.Component {
 				{ x: getShiftLength(content[0], 'right'), opacity: 0 },
 				0.1,
 				'<.4'
-			);
+			)
+			.to('.component-loader', { opacity: 1, display: 'flex' });
 	};
 
 	entry = () => {
-		const { bg, circle, img, content } = this.refs;
+		const { circle, img, content } = this.refs;
 
-		return gsap
-			.timeline({ paused: true })
-			.from(bg, {
-				x: getShiftLength(bg, 'left'),
-				duration: 0.6,
-			})
+		return new AnimateBackground({
+			tl: gsap
+				.timeline({ paused: true })
+				.to('.component-loader', { opacity: 0, display: 'none' }),
+		})
+			.scaleDownX()
+			.getTl()
 			.from(
 				img,
 				{
@@ -101,10 +104,12 @@ class Home extends React.Component {
 	};
 
 	componentDidMount() {
+		gsap.set('main', {
+			opacity: 0,
+		});
+
 		Storage.set(this.exit(), 'exit');
-
-		this.entry().play();
-
+		console.log('mount');
 		/*gsap.timeline()
 			.to('.ball', { y: -4, scaleX: 1, ease: Power4.easeIn })
 			.to('.ball', { y: 0, scaleX: 1.4, ease: Power4.easeIn })
@@ -112,6 +117,16 @@ class Home extends React.Component {
 		//.to('.ball', { scale: 600 }, '-=.3')
 		//.set('.ball', { position: 'absolute', left: 0, top: 0 });
 	}
+
+	handleLoaded = () => {
+		console.log(this);
+
+		gsap.set('main', {
+			opacity: 1,
+		});
+
+		this.entry().play(0);
+	};
 
 	render() {
 		this.refs = { content: [] };
@@ -137,6 +152,7 @@ class Home extends React.Component {
 					</svg>
 					<img
 						src={image}
+						onLoad={this.handleLoaded}
 						alt='landing page hero'
 						ref={(ref) => (this.refs.img = ref)}
 					/>
@@ -161,4 +177,4 @@ class Home extends React.Component {
 	}
 }
 
-export default Home;
+export default withLastLocation(Home);

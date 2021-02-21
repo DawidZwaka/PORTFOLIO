@@ -1,0 +1,32 @@
+@import 'variables.scss';
+
+@import 'mixins.scss';
+
+@import 'fonts.scss';
+
+@import 'common.scss';
+
+@import 'background.scss';
+
+@import 'loader.scss';
+
+@import 'main_menu.scss';
+
+@import 'home.scss';
+
+@import 'about.scss';
+
+@import 'projects.scss';
+
+@import 'contact.scss';
+
+@import 'slider.scss';
+
+@import 'helpers.scss';
+
+.portal {
+	overflow: hidden;
+	span {
+		display: block;
+	}
+}

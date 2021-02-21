@@ -1,18 +1,28 @@
 import React from 'react';
 import gsap, { Power4 } from 'gsap';
 import Storage from '../util/AnimStorage';
+import { AnimateBackground } from '../util/Background/Background';
+
 const contactData = [
 	{ type: 'phone', value: 508833686 },
 	{ type: 'mail', value: 'zwakadawid@gmail.com' },
 	{ type: 'facebook', value: 'Dawid Żwaka' },
 ];
 
-const SingleContact = (props) => {
-	const { type, value } = props.data;
+const ContactMethods = () => {
+	const methods = [],
+		values = [];
+
+	contactData.forEach(({ type, value }) => {
+		methods.push(<strong>{type}</strong>);
+		values.push(<p>{value}</p>);
+	});
+
 	return (
-		<p className='single'>
-			<strong>{type}</strong>: {value}
-		</p>
+		<div class='contact_methods'>
+			<div className='column'>{methods}</div>
+			<div className='column'>{values}</div>
+		</div>
 	);
 };
 
@@ -44,31 +54,34 @@ const getShiftLength = (elem, direction) => {
 
 class Contact extends React.Component {
 	componentDidMount() {
-		const tl = gsap.timeline();
+		const elem_1 = document.querySelectorAll(
+			'.contact_content .portal > span'
+		);
+		let tl;
 
-		const elem_1 = document.querySelectorAll('.contact_content > *');
+		if (false)
+			tl = new AnimateBackground({ tl: gsap.timeline() })
+				.scaleUpY()
+				.getTl();
+		else {
+			tl = gsap.timeline();
+			tl.set('.bg-master', { scale: 1.2 });
+		}
 
-		tl.delay(0.3);
 		tl.staggerFrom(
-			'.bg_stacker .stacker',
-			0.3,
-			{
-				xPercent: -100,
-				ease: Power4.easeIn,
-			},
-			0.2
-		).staggerFrom(
 			elem_1,
 			0.4,
 			{
 				yPercent: 100,
-				opacity: 0,
 			},
-			0.1
+			0
 		);
 
-		const tl2 = gsap
-			.timeline({ paused: true })
+		const tl2 = new AnimateBackground({
+			tl: gsap.timeline({ paused: true }),
+		})
+			.scaleDownY()
+			.getTl()
 			.delay(0.7)
 			.staggerTo(
 				elem_1,
@@ -78,19 +91,6 @@ class Contact extends React.Component {
 					opacity: 0,
 				},
 				0.1
-			)
-			.staggerTo(
-				[
-					'.bg_stacker .stacker_3',
-					'.bg_stacker .stacker_2',
-					'.bg_stacker .stacker_1',
-				],
-				0.3,
-				{
-					xPercent: 100,
-					ease: Power4.easeOut,
-				},
-				0.2
 			);
 
 		Storage.set(tl2, 'exit');
@@ -99,17 +99,13 @@ class Contact extends React.Component {
 	render() {
 		return (
 			<main className='contact'>
-				<div className='contact_bg'></div>
-				<div className='bg_stacker'>
-					<div className='stacker stacker_1'></div>
-					<div className='stacker stacker_2'></div>
-					<div className='stacker stacker_3'></div>
-				</div>
 				<section className='contact_content'>
-					<h1>Contact</h1>
-					{contactData.map((single, index) => (
-						<SingleContact data={single} key={index} />
-					))}
+					<h1 class='portal'>
+						<span>Contact</span>
+					</h1>
+					<div className='contact_methods'>
+						<ContactMethods />
+					</div>
 				</section>
 			</main>
 		);

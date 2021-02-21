@@ -1,0 +1,38 @@
+$transition-time: 0.3s;
+
+$pageMargin: 3rem;
+
+$topbarHeight: 4rem;
+
+$fixedGradient: linear-gradient(#0e798b, #13cb73);
+
+$colors: (
+	'primary': #fefefe,
+	'secondary': #090909,
+	'detailed': #0e798b,
+);
+
+$zIndex: (
+	'topbar': 999,
+	'fixed': 1000,
+	'loader': 2000,
+);
+
+$grid-breakpoints: (
+	sm: 576,
+	md: 768,
+	lg: 992,
+	xl: 1200,
+	xxl: 1750,
+);
+
+$pageGridTemplate: ($pageMargin $topbarHeight 1fr $topbarHeight/2 $pageMargin) /
+	($pageMargin 1fr $pageMargin);
+
+
+$fixedGridTemplate: ($pageMargin $topbarHeight 1fr auto $pageMargin) /
+	($pageMargin 1fr $pageMargin);
+
+$homeGridTemplate: (
+		$pageMargin $topbarHeight * 2 repeat(6, 1fr) $topbarHeight $pageMargin
+	) / ($pageMargin $topbarHeight repeat(9, 1fr) $topbarHeight $pageMargin); ;

@@ -1,0 +1,32 @@
+.floating {
+	perspective: 1000px;
+	width: 100%;
+	height: 100%;
+	&_inside {
+		width: 100%;
+		height: 100%;
+		transform-origin: 50% 50%;
+		transition-duration: 300ms;
+	}
+}
+.image {
+	margin: 0;
+}
+.aspect_ratio {
+	&-16_9 {
+		padding-top: 56.25%;
+		position: relative;
+		> * {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+.object {
+	&-cover {
+		object-fit: cover;
+	}
+}

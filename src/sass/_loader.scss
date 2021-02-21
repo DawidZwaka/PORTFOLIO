@@ -1,0 +1,72 @@
+.loader {
+	z-index: map-get($zIndex, 'loader');
+	width: 100vw;
+	height: 100vh;
+	left: 0;
+	top: 0;
+	background-color: map-get($colors, 'secondary');
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.logo {
+		color: transparent;
+		background-clip: text !important;
+		background: linear-gradient(to right, black, white, black);
+		background-repeat: no-repeat;
+		background-size: 100%;
+		animation: loading 3s infinite;
+	}
+}
+
+@keyframes loading {
+	0% {
+		background-position-x: -10rem;
+	}
+	100% {
+		background-position-x: 10rem;
+	}
+}
+
+.loader {
+	display: none;
+}
+
+$boxes: 1;
+$durationAll: 3s;
+$duration: -$durationAll / $boxes;
+$color: map-get($colors, 'primary');
+
+.component-loader {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	height: 5px;
+	display: flex;
+	width: 100%;
+
+	div {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		background: #{$color};
+		animation: go #{$durationAll} infinite ease;
+	}
+}
+@keyframes go {
+	0% {
+		right: 100%;
+		left: 0;
+	}
+	50% {
+		right: 0;
+		left: 0;
+	}
+	100% {
+		left: 100%;
+		right: 0;
+	}
+}

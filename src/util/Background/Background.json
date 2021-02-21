@@ -1,0 +1,20 @@
+[
+	{
+		"location": "/",
+		"anim": [
+			{from: }
+		]
+	},
+	{
+		"location": "/about",
+		"anim": [
+			{from: }
+		]
+	},
+	{
+		"loaction": "/projects"
+	},
+	{
+		"loaction": "/contact"
+	}
+]

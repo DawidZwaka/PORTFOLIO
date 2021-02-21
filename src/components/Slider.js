@@ -79,12 +79,12 @@ class Slider extends React.Component {
 
 		this.animationTl.entry.play(0);
 
-		document.addEventListener('wheel', this.handleWheel);
+		//document.addEventListener('wheel', this.handleWheel);
 	}
 
 	componentWillUnmount() {
 		console.log('unmount');
-		document.removeEventListener('wheel', this.handleWheel);
+		//document.removeEventListener('wheel', this.handleWheel);
 	}
 
 	componentDidUpdate() {
@@ -109,7 +109,7 @@ class Slider extends React.Component {
 			tl.exit.play(0);
 
 			setTimeout(() => {
-				console.log('oj byczku');
+				console.log('anim end');
 				this.setState({
 					...this.state,
 					activeIndex: nextSlideIndex,
@@ -139,7 +139,7 @@ class Slider extends React.Component {
 	handleControlClick = (ev) => {
 		const controler = ev.target,
 			slideIndex = parseInt(controler.getAttribute('data-slideindex'));
-		console.log('click');
+			
 		this.updateSlider(slideIndex);
 	};
 
@@ -163,13 +163,23 @@ class Slider extends React.Component {
 		return (
 			<div className='verticalSlider'>
 				<div className='slide'>
-					<div className='slide_info'>
-						<h1 ref={(ref) => (this.slide.info[0] = ref)}>
+					<div className='slide_header pt-5'>
+						<h1
+							className='slide_title'
+							ref={(ref) => (this.slide.info[0] = ref)}
+						>
 							{title}
 						</h1>
-						<p ref={(ref) => (this.slide.info[1] = ref)}>{desc}</p>
+						<span className='slide_iterator'>01</span>
 					</div>
-					<div className='slide_img'>
+					<p
+						className='slide_teaser pb-5'
+						ref={(ref) => (this.slide.info[1] = ref)}
+					>
+						shop_in_node is an online shop app used for managing
+						your store.
+					</p>
+					<div className='slide_img py-5'>
 						<Floating maxDeviation='10'>
 							<Image
 								ref={(ref) => (this.slide.img = ref)}
@@ -177,6 +187,36 @@ class Slider extends React.Component {
 								ratio='16:9'
 							/>
 						</Floating>
+					</div>
+					<article className='slide_tech py-5'>
+						<h2>Technologiest</h2>
+						<p>
+							shop_in_node is build with MVC model. The backbone
+							of this application is Express.js, Mongodb as
+							database and clean js on the frontend.
+						</p>
+					</article>
+					<article className='slide_features py-5'>
+						<h2>Features</h2>
+						<p>
+							The application includes functionalities such as
+							user authorization, submission and management of
+							orders, management of products, user account page,
+							English and Polish languages support, store
+							configuration, statistics panel and many many
+							others...
+						</p>
+					</article>
+					<div className='slide_stack'>
+						<h4>Whole Tech Stack</h4>
+						<ul className='stack_list'>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
 					</div>
 				</div>
 				<div className='controls'>{controls}</div>

@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+import './sass/index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
+import { LastLocationProvider } from 'react-router-last-location';
 
 ReactDOM.render(
 	<Provider store={store}>
 		<React.StrictMode>
 			<BrowserRouter>
-				<App />
+				<LastLocationProvider>
+					<App />
+				</LastLocationProvider>
 			</BrowserRouter>
 		</React.StrictMode>
 	</Provider>,

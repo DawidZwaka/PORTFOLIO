@@ -1,0 +1,7 @@
+@mixin breakpoint-down($breakpoint) {
+	$breakpoint-width: map-get($grid-breakpoints, $breakpoint );
+
+	@media (max-width: $breakpoint-width + 'px') {
+		@content;
+	}
+}

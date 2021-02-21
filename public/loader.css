@@ -1,0 +1,29 @@
+.loader {
+	z-index: 2000;
+	width: 100vw;
+	height: 100vh;
+	left: 0;
+	top: 0;
+	background-color: black;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.loader .logo {
+	color: transparent;
+	background-clip: text !important;
+	background: linear-gradient(to right, black, white, black);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	animation: loading 3s infinite;
+}
+
+@keyframes loading {
+	0% {
+		background-position-x: -10rem;
+	}
+	100% {
+		background-position-x: 10rem;
+	}
+}

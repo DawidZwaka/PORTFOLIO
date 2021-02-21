@@ -1,3 +1,5 @@
-const About = () => <div>elo</div>;
+const About = () => {
+	return <main className='about'></main>;
+};
 
 export default About;

@@ -4,7 +4,15 @@ import Slider from '../components/Slider';
 class Projects extends React.Component {
 	slides = [
 		{
-			title: 'project_1',
+			title: (
+				<>
+					SHOP
+					<br />
+					_IN
+					<br />
+					_NODE
+				</>
+			),
 			desc:
 				'ultrices consequat lorem, vel tempor purus ultricies ac. Aliquam ut auctor ligula, nec bibendum mi. Suspendisse potenti',
 			img: 'https://via.placeholder.com/300',
