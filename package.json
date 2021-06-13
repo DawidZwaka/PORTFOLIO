@@ -14,7 +14,9 @@
 		"react-router-dom": "^5.2.0",
 		"react-router-last-location": "^2.0.1",
 		"react-scripts": "4.0.0",
+		"react-smooth-scrollbar": "^8.0.6",
 		"redux": "^4.0.5",
+		"smooth-scrollbar": "^8.6.2",
 		"web-vitals": "^0.2.4"
 	},
 	"scripts": {
@@ -42,6 +44,7 @@
 		]
 	},
 	"devDependencies": {
-		"node-sass": "^4.14.1"
+		"node-sass": "^4.14.1",
+		"import-glob-loader": "^1.1.0",
 	}
 }
