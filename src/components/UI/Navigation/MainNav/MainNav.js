@@ -58,21 +58,18 @@ import { NavLink } from 'react-router-dom';
 	};
 }*/
 
-const MainNav = (props, ref) => {
+const MainNav = (props) => {
 	const { routes, onclick } = props;
-	const refs = [];
 
 	const navItems = routes.map(({ path, name }, index) => {
 		return (
-			<li className='nav_item' key={index} ref={(ref) => refs.push(ref)}>
+			<li className='nav_item' key={index}>
 				<NavLink to={path} onClickCapture={onclick} key={index}>
 					{name}
 				</NavLink>
 			</li>
 		);
 	});
-
-	ref(refs);
 
 	return (
 		<nav className='mainNav'>
@@ -81,4 +78,4 @@ const MainNav = (props, ref) => {
 	);
 };
 
-export default forwardRef(MainNav);
+export default MainNav;

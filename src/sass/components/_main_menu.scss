@@ -2,9 +2,10 @@
 	display: flex;
 	align-items: center;
 	padding: $topbarHeight/2 $topbarHeight/2 0 $topbarHeight/2;
-	grid-area: 2 / 2 / span 1 / span 1;
+	grid-area: topbar;
 	z-index: map-get($zIndex, 'topbar');
 }
+
 .toggler {
 	display: flex;
 	position: relative;
@@ -36,7 +37,7 @@
 	color: map-get($colors, 'primary');
 	font-size: 1.2rem;
 	letter-spacing: 0.7rem;
-	padding-left: 0.7rem;
+	padding-left: 0.6rem;
 	text-transform: uppercase;
 	font-weight: 300;
 }
@@ -46,18 +47,21 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-
-	grid-area: 1 / 1 / -1 / -1;
+	padding: $pageMargin;
 	display: grid;
-	grid-template: $fixedGridTemplate;
+	grid-template: ( $topbarHeight 1fr auto ) / auto;
+	grid-template-areas: 
+	"topbar"
+	"content"
+	"footer";
 	clip-path: circle(0%);
 	background-color: map-get($colors, 'primary');
 	z-index: map-get($zIndex, 'fixed');
 	&_content {
-		grid-area: 3 / 2 / span 1 / span 1;
+		grid-area: content;
 	}
 	&_footer {
-		grid-area: 4 / 2 / span 1 / span 1;
+		grid-area: footer;
 	}
 	.logo {
 		color: map-get($colors, 'secondary');

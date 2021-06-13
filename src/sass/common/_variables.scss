@@ -13,6 +13,8 @@ $colors: (
 );
 
 $zIndex: (
+	'background': 1,
+	'content': 2,
 	'topbar': 999,
 	'fixed': 1000,
 	'loader': 2000,
@@ -26,13 +28,9 @@ $grid-breakpoints: (
 	xxl: 1750,
 );
 
-$pageGridTemplate: ($pageMargin $topbarHeight 1fr $topbarHeight/2 $pageMargin) /
-	($pageMargin 1fr $pageMargin);
-
-
-$fixedGridTemplate: ($pageMargin $topbarHeight 1fr auto $pageMargin) /
-	($pageMargin 1fr $pageMargin);
 
 $homeGridTemplate: (
 		$pageMargin $topbarHeight * 2 repeat(6, 1fr) $topbarHeight $pageMargin
 	) / ($pageMargin $topbarHeight repeat(9, 1fr) $topbarHeight $pageMargin); ;
+
+$contentMargin: ($pageMargin + $topbarHeight) $pageMargin $pageMargin $pageMargin;

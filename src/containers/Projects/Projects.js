@@ -1,5 +1,8 @@
 import React from 'react';
-import Slider from '../components/Slider';
+import Slider from '../../components/Slider/Slider';
+import Storage from '../../util/AnimStorage';
+import AnimatableContainer from '../../HOC/AnimatableContainer';
+import ProjectsAnims from './ProjectsAnims';
 
 class Projects extends React.Component {
 	slides = [
@@ -33,16 +36,13 @@ class Projects extends React.Component {
 
 	render() {
 		return (
-			<main className='projects'>
-				<div className='bg_stacker'>
-					<div className='stacker stacker_1'></div>
-					<div className='stacker stacker_2'></div>
-					<div className='stacker stacker_3'></div>
-				</div>
-				<section className='projects_content'>
-					<Slider slides={this.slides} />
-				</section>
-			</main>
+			<AnimatableContainer AnimClass={ProjectsAnims}>
+				<main className='projects'>
+					<section className='projects_content'>
+						<Slider slides={this.slides} />
+					</section>
+				</main>
+			</AnimatableContainer>
 		);
 	}
 }

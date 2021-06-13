@@ -5,7 +5,11 @@
 }
 :root {
 	font-size: 20px;
+	line-height: 35px;
 	font-family: 'Barlow Condensed', sans-serif;
+}
+::selection {
+	background: map-get($colors, 'detailed' );
 }
 
 body {
@@ -15,13 +19,18 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	letter-spacing: 0.035em;
+	overflow-y: overlay;
 }
-#root {
-	max-width: 100vw;
+#app {
+	width: 100vw;
+	height: 100vh;
+	padding: $pageMargin;
 	display: grid;
-	//overflow: hidden;
+	grid-template: $topbarHeight auto / 100%;
+	grid-template-areas: 
+		'topbar'
+		'content';
 	position: relative;
-	grid-template: $pageGridTemplate;
 }
 a {
 	color: map-get($colors, 'primary');
@@ -50,7 +59,6 @@ p {
 	margin-top: 0;
 	letter-spacing: 0.035em;
 	font-weight: 400;
-	line-height: 180%;
 }
 
 h1 {
@@ -76,9 +84,27 @@ button {
 		outline: 0;
 	}
 }
+
 main {
-	grid-area: 1 / 1 / -1 / -1;
-	display: grid;
-	width: 100%;
-	height: 100%;
+	z-index: map-get($zIndex, 'content');
+	position: relative;
+}
+
+.p {
+	&y {
+		&-5 {
+			padding-top: 3rem;
+			padding-bottom: 3rem;
+		}
+	}
+	&t {
+		&-5 {
+			padding-top: 3rem;
+		}
+	}
+	&b {
+		&-5 {
+			padding-bottom: 3rem;
+		}
+	}
 }

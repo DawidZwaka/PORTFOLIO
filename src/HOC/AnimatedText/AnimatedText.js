@@ -1,9 +1,9 @@
-import React from 'React';
-import "AnimatedText.scss";
+
+import "./AnimatedText.scss";
 
 const AnimatedText = (props) => {
 
-	return <div className="">{props.children}</div>;
+	return <span className="animText"><span className="animText__inside">{props.children}</span></span>;
 };
 
 export default AnimatedText;

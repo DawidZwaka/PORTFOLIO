@@ -45,6 +45,7 @@ $color: map-get($colors, 'primary');
 	height: 5px;
 	display: flex;
 	width: 100%;
+	z-index: map-get($zIndex, 'loader' );
 
 	div {
 		position: absolute;

@@ -1,27 +1,22 @@
-@import 'variables.scss';
+//SETTING UP
+@import 'common/variables.scss';
+@import 'common/mixins.scss';
+@import 'common/fonts.scss';
+@import 'common/common.scss';
 
-@import 'mixins.scss';
+//CONTAINERS
+@import 'containers/home.scss';
+@import 'containers/about.scss';
+@import 'containers/projects.scss';
+@import 'containers/contact.scss';
 
-@import 'fonts.scss';
+//COMPONENTS
+@import 'components/background.scss';
+@import 'components/loader.scss';
+@import 'components/main_menu.scss';
+@import 'components/slider.scss';
 
-@import 'common.scss';
-
-@import 'background.scss';
-
-@import 'loader.scss';
-
-@import 'main_menu.scss';
-
-@import 'home.scss';
-
-@import 'about.scss';
-
-@import 'projects.scss';
-
-@import 'contact.scss';
-
-@import 'slider.scss';
-
+//HELPERS
 @import 'helpers.scss';
 
 .portal {

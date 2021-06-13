@@ -1,7 +1,11 @@
 import React from 'react';
+import { withLastLocation } from 'react-router-last-location';
 
-const background = () => {
-	return <div className='bg bg-master'></div>;
+class AppBackground extends React.Component {
+
+	render() {
+		return <div className='bg bg-master'></div>;
+	}
 };
 
-export default background;
+export default withLastLocation(AppBackground);

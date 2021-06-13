@@ -30,3 +30,9 @@
 		object-fit: cover;
 	}
 }
+
+.lh {
+	&-180 {
+		line-height: 180%;
+	}
+}

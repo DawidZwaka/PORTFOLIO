@@ -1,12 +1,13 @@
 import MainNav from '../MainNav/MainNav';
-import { useHistory } from 'react-router-dom';
+import { his, withRouter } from 'react-router-dom';
 import gsap, { Power3 } from 'gsap';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import actions from '../../../../redux/actions/UI';
 import Animate from '../../../../HOC/Animate';
 import Storage from '../../../../util/AnimStorage';
 import Topbar from '../TopBar/Topbar';
+import BgAnimControler from '../../../../util/BackgroundAnimControler';
 
 const styling = {
 	fixed: {
@@ -18,27 +19,24 @@ const styling = {
 	nav: { entry: { opacity: 0, transform: 'scale(.7)' }, exit: null },
 };
 
-const entryAnim = (refs) => {
-	const { fixed, nav } = refs;
-	const { fixed: fstyle } = styling;
+const entryAnim = () => {
 
 	const tl = gsap.timeline();
 
 	tl.fromTo(
-		fixed,
+		'.fixed',
 		{ clipPath: 'circle(0% at 5.5rem 5.5rem)' },
 		{
 			clipPath: 'circle(150% at 5.5rem 5.5rem)',
 			ease: Power3.easeIn,
 		}
-	).staggerFrom(nav, 0.4, { opacity: 0, x: 100 }, 0.1, '-= 0.2');
+	).staggerFrom('.nav_item', 0.4, { opacity: 0, x: 100 }, 0.1, '-= 0.2');
 };
 
-const exitAnim = (refs) => {
-	const { fixed } = refs;
+const exitAnim = () => {
 
 	gsap.timeline().fromTo(
-		fixed,
+		'.fixed',
 		{ clipPath: 'circle(150% at 5.5rem 5.5rem)' },
 		{
 			clipPath: 'circle(0% at 5.5rem 5.5rem)',
@@ -47,66 +45,84 @@ const exitAnim = (refs) => {
 	);
 };
 
-const MainMenu = (props, ref) => {
-	const { routes, toggleMenu, show } = props;
-	const refs = {};
-	const history = useHistory();
+class MainMenu extends React.PureComponent {
 
-	const setActivePage = (ev) => {
+	exitPageSequenceHandler = (ev) => {
 		ev.preventDefault();
-		const href = ev.currentTarget.pathname;
-		const anim = Storage.get('exit');
 
-		anim.play(0);
-		toggleMenu();
+		const href = ev.currentTarget.pathname;
+		BgAnimControler.setLocation({
+			curr: window.location.pathname,
+			next: href
+		});
+		const { entry, exit } = BgAnimControler.getTransitionsAnims();
+
+
+		Storage.setAsFirst('exit', exit);
+		Storage.set('entry', entry);
+
+		console.log('exit delay', Storage.getDuration('exit'));
+
+		//close menu
+		this.props.toggleMenu();
+
+		//play exit animation from animation storage
+		Storage.play('exit');
 
 		setTimeout(() => {
-			history.push(href);
-		}, anim.duration() * 1000);
-	};
 
-	const render = (
-		<>
-			<Topbar onclick={toggleMenu} />
-			<div ref={(ref) => (refs.fixed = ref)} className='fixed'>
-				<Topbar onclick={toggleMenu} classes='fixed_header' />
-				<section className='fixed_content'>
-					<MainNav
-						ref={(ref) => (refs.nav = ref)}
-						onclick={setActivePage}
-						routes={routes}
-					/>
-				</section>
-				<footer className='fixed_footer'>
-					<hr />
-					<div className='footer'>
-						<div className='lang'>
-							<strong>Lang:</strong>
-							<a>EN</a>
-							<a>PL</a>
+
+			this.props.history.push(href);
+		}, Storage.getDuration('exit') * 1000);
+	}
+
+	componentDidUpdate() {
+		console.log('rerender menu');
+	}
+
+	render() {
+		const { routes, toggleMenu } = this.props;
+
+		const render = (
+			<>
+				<Topbar onclick={toggleMenu} />
+				<div className='fixed'>
+					<Topbar onclick={toggleMenu} classes='fixed_header' />
+					<section className='fixed_content'>
+						<MainNav
+							onclick={this.exitPageSequenceHandler}
+							routes={routes}
+						/>
+					</section>
+					<footer className='fixed_footer'>
+						<hr />
+						<div className='footer'>
+							<div className='lang'>
+								<strong>Lang:</strong>
+								<a>EN</a>
+								<a>PL</a>
+							</div>
+							<div className='socials'>
+								<a>linkedin</a>
+								<a>github</a>
+								<a>facebook</a>
+								<a>instagram</a>
+							</div>
 						</div>
-						<div className='socials'>
-							<a>linkedin</a>
-							<a>github</a>
-							<a>facebook</a>
-							<a>instagram</a>
-						</div>
-					</div>
-				</footer>
-			</div>
-		</>
-	);
+					</footer>
+				</div>
+			</>
+		);
 
-	ref(refs);
-
-	return render;
+		return render;
+	}
 };
 
 export default connect(
-	({ UI }) => ({ show: UI.menuVisibility }),
+	({ UI }) => ({ show: UI.menuActive }),
 	(dispatch) => ({
 		toggleMenu: () => {
 			dispatch({ type: actions.TOGGLE_MENU });
 		},
 	})
-)(Animate(entryAnim, exitAnim)(forwardRef(MainMenu)));
+)(Animate(entryAnim, exitAnim)(withRouter(MainMenu)));

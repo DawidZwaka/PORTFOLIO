@@ -1,4 +1,9 @@
-.AnimatedText {
+.animText {
 	position: relative;
 	overflow: hidden;
+	display: block;
+
+	&__inside {
+		display: block;
+	}
 }

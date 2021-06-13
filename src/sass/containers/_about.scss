@@ -1,0 +1,37 @@
+.about {
+	display: grid;
+	padding: 2*$pageMargin 6*$pageMargin;
+    grid-template: auto auto auto / 1fr $pageMargin*2 1fr;
+	grid-template-areas:
+		'title  .   img   '
+		'about1 .  about2 '
+		'skills . learning';
+	align-items: center;
+	justify-content: center;
+
+	&__title {
+		grid-area: title;
+	}
+
+	&__image {
+		grid-area: img;
+	}
+
+	&__content {
+		&1 {
+			grid-area: about1;
+		}
+
+		&2 {
+			grid-area: about2;
+		}
+	}
+
+	&__skills {
+		grid-area: skills;
+	}
+
+	&__learning {
+		grid-area: learning;
+	}
+}

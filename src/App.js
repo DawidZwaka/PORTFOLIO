@@ -1,13 +1,14 @@
 import { Switch, Route, useLocation } from 'react-router-dom';
-import Home from './containers/Home';
-import About from './containers/About';
-import Projects from './containers/Projects';
-import Contact from './containers/Contact';
+import Home from './containers/Home/Home';
+import About from './containers/About/About';
+import Projects from './containers/Projects/Projects';
+import Contact from './containers/Contact/Contact';
 import MainMenu from './components/UI/Navigation/MainMenu/MainMenu';
 import Particles from './components/UI/Particles';
-import Background from './components/UI/Background';
+import AppBackground from './components/UI/Background';
 import React from 'react';
 import ComponentLoader from './components/ComponentLoader';
+import ScrollBar from './components/UI/ScrollBar/ScrollBar';
 
 const routes = [
 	{ name: 'Home', path: '/', Component: Home },
@@ -32,15 +33,23 @@ const App = () => {
 		);
 	});
 
-	return (
+	const appContent = (
 		<>
 			<MainMenu routes={routes} />
 			<Switch>{render}</Switch>
-			<div className='bg bg-master'></div>
-			<ComponentLoader />
-			<Particles />
+			<AppBackground />
+			{//<ComponentLoader />
+			}
 		</>
 	);
+
+
+	return <ScrollBar dumping={.01} autohide="true">
+		<div id="app">
+			{appContent}
+		</div>
+	</ScrollBar>;
+
 };
 
 export default App;

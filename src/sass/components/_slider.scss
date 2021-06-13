@@ -28,7 +28,6 @@
 
 .verticalSlider {
 	display: grid;
-	background-color: black;
 	grid-template: (1fr $topbarHeight $pageMargin) / (
 			$pageMargin $topbarHeight 1fr $pageMargin + $topbarHeight
 		);
@@ -123,31 +122,40 @@ $spacer: 2rem;
 			list-style: none;
 			padding: 0;
 			margin: 0 auto;
+			align-items: center;
 			li {
 				width: 30px;
-				height: 30px;
-				background-color: white;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				margin: 0 0.5rem;
 			}
 		}
 	}
 }
 
-.p {
-	&y {
-		&-5 {
-			padding-top: 3rem;
-			padding-bottom: 3rem;
+
+
+
+
+
+//temp
+.slide_img {
+	display: flex;
+	align-items: flex-end;
+	position: relative;
+	margin-left: 30px;
+	img {
+		&:first-child {
+			margin-bottom: 40px;
+			margin-left: 40px;
+			position: absolute;
+		}
+		&:last-child {
+
 		}
 	}
-	&t {
-		&-5 {
-			padding-top: 3rem;
-		}
-	}
-	&b {
-		&-5 {
-			padding-bottom: 3rem;
-		}
-	}
+}
+.bg-master {
+	//transform: scale(1.2);
 }
