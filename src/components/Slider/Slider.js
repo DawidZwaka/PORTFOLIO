@@ -1,171 +1,164 @@
-import React from 'react';
-import gsap from 'gsap';
-import Controler from './Controler';
-import ProjectSlide from './ProjectSlide.js';
+import React from "react";
+import ProjectSlide from "./ProjectSlide.js";
+import { connect } from "react-redux";
+import sliderActions from "../../redux/actions/Slider";
+import uiActions from "../../redux/actions/UI";
+import sliderState from "../../redux/reducers/reducers/Slider/SliderState";
 
 class Slider extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.props.setSliderState({ sliderState: sliderState.IDLE });
+
+		this.slides = [
+			{
+				title: ["SHOP", "_IN", "_NODE"],
+			},
+			{
+				title: ["TEST", "_IN", "_NODE"],
+			},
+			{
+				title: ["TEST", "_IN", "_NODE"],
+			},
+		];
+
 		this.state = {
-			activeIndex: 0,
+			scrollListenerActive: false,
 		};
-		this.animationTl = {
-			entry: gsap.timeline({ paused: true }),
-			exit: gsap.timeline({ paused: true }),
-		};
-		this.slides = props.slides;
-		this.slide = { info: [], img: '' };
-		this.controls = [];
 	}
 
-	initAnimations = () => {
-		const { info, img } = this.slide;
-		//gsap.defaults({ ease: Power2.easeOut });
-		//.gsap.defaults({ ease: Power2.easeIn });
-		/*this.animationTl.entry
-			.staggerFromTo(
-				info,
-				0.7,
-				{
-					y: 200,
-					opacity: 0,
-				},
-				{
-					y: 0,
-					opacity: 1,
-				},
-				0.2
-			)
-			.from(
-				img,
-				{
-					y: 100,
-					opacity: 0,
-					duration: 1,
-				},
-				{
-					y: 0,
-					opacity: 1,
-				},
-				'-=.7'
-			);
+	/**
+	 * changeSlide set active slide depeneds on given vector
+	 *
+	 * if vector is 0 then do nothing
+	 *
+	 * if 1 then set next slide as active
+	 *
+	 * if -1 then set prev slide as active
+	 *
+	 * @param {number} vector one of them: [-1, 0, 1]
+	 * @return {void}
+	 */
+	changeSlide = (vector) => {
+		const {
+			props: { activeIndex },
+			slides: { length },
+		} = this;
+		let flag = false;
+		let acRes = activeIndex;
 
-		this.animationTl.exit
-			.staggerTo(
-				info,
-				0.7,
-				{
-					y: -200,
-					opacity: 0,
-				},
-				0.1
-			)
-			.to(
-				img,
-				{
-					y: -100,
-					opacity: 0,
-					duration: 1,
-				},
-				'-=.7'
-			);*/
+		if (vector === 1 && activeIndex !== length - 1) {
+			++acRes;
+			flag = true;
+		}
+
+		if (vector === -1 && activeIndex !== 0) {
+			--acRes;
+			flag = true;
+		}
+
+		if (flag) {
+			this.props.setActiveSlideIndex(acRes);
+			this.props.setSliderState(sliderState.IN_TRANSITION);
+		}
+	};
+
+	handleOverscrollEvent = () => {
+		const {
+			props: { scrollbar },
+		} = this;
+
+		if (scrollbar && !this.state.scrollListenerActive) {
+			this.props.setOverscrollListener((overStatus) => {
+				if (this.props.currState !== sliderState.IN_TRANSITION) {
+					const yMomentum = overStatus.y;
+					let changingVector = 0;
+
+					if (yMomentum > 0) changingVector = 1;
+
+					if (yMomentum < 0) changingVector = -1;
+
+					if (changingVector) {
+						this.changeSlide(changingVector);
+					}
+				}
+			});
+
+			this.setState({ scrollListenerActive: true });
+		}
+	};
+
+	deleteHandleOverscrollListener = () => {
+		const { props: scrollbar } = this;
+
+		scrollbar.options.plugins.overscroll.onScroll = null;
 	};
 
 	componentDidMount() {
-		this.initAnimations();
-		console.log('mount');
-
-		//this.animationTl.entry.play(0);
-
-		//document.addEventListener('wheel', this.handleWheel);
-	}
-
-	componentWillUnmount() {
-		console.log('unmount');
-		//document.removeEventListener('wheel', this.handleWheel);
+		this.handleOverscrollEvent();
 	}
 
 	componentDidUpdate() {
-		console.log('update');
-		//this.animationTl.entry.play(0);
+		this.handleOverscrollEvent();
 	}
 
-	shouldSliderUpdate = (nextActiveIndex) => {
-		const tl = this.animationTl,
-			{ activeIndex } = this.state;
-
-		return (
-			!tl.entry.isActive() &&
-			!tl.exit.isActive() &&
-			nextActiveIndex !== activeIndex
-		);
-	};
-
-	updateSlider = (nextSlideIndex) => {
-		if (this.shouldSliderUpdate(nextSlideIndex)) {
-			//const tl = this.animationTl;
-			//tl.exit.play(0);
-
-			/*setTimeout(() => {
-				console.log('anim end');
-				this.setState({
-					...this.state,
-					activeIndex: nextSlideIndex,
-				});
-			}, tl.exit.duration() * 1000);*/
-		} else {
-			return;
-		}
-	};
-
-	handleWheel = (ev) => {
-		const { deltaY } = ev,
-			maxLength = this.slides.length;
-		let slideIndex = this.state.activeIndex;
-
-		if (deltaY > 0) {
-			slideIndex++;
-			slideIndex %= maxLength;
-		} else if (deltaY < 0) {
-			if (slideIndex === 0) slideIndex = maxLength;
-			slideIndex--;
-		}
-
-		this.updateSlider(slideIndex);
-	};
+	componentWillUnmount() {
+		this.props.setSliderState(sliderState.INACTIVE);
+		this.props.flushOverscrollListener();
+	}
 
 	handleControlClick = (ev) => {
 		const controler = ev.target,
-			slideIndex = parseInt(controler.getAttribute('data-slideindex'));
+			slideIndex = parseInt(controler.getAttribute("data-slideindex"));
 
 		this.updateSlider(slideIndex);
 	};
 
-	render() {
-		const { activeIndex } = this.state,
-			controls = [];
+	transitionEndHandler = () => {
+		this.props.setSliderState(sliderState.IDLE);
+	};
 
-		for (let i = 0; i < this.slides.length; i++) {
-			controls.push(
-				<Controler
-					ref={(ref) => this.controls.push(ref)}
-					onclick={this.handleControlClick}
-					slideIndex={i}
-					active={activeIndex === i}
-					key={i}
-				/>
-			);
-		}
-		console.log(this.slides[activeIndex]);
+	render() {
+		const {
+			props: { scrollbar, activeIndex },
+		} = this;
 
 		return (
-			<div className='verticalSlider'>
-				<ProjectSlide props={this.slides[activeIndex]} />
-				<div className='controls'>{controls}</div>
+			<div className="verticalSlider">
+				<ProjectSlide
+					scrollbar={scrollbar}
+					slide={this.slides[activeIndex]}
+					onTransitionEnd={this.transitionEndHandler}
+				/>
 			</div>
 		);
 	}
 }
 
-export default Slider;
+export default connect(
+	({ UI, Slider }) => ({
+		scrollbar: UI.scrollbar,
+		activeIndex: Slider.activeIndex,
+		currState: Slider.sliderState,
+	}),
+	(dispatch) => ({
+		setSliderState: (state) =>
+			dispatch({
+				type: sliderActions.SET_SLIDER_STATE,
+				sliderState: state,
+			}),
+		setActiveSlideIndex: (index) =>
+			dispatch({
+				type: sliderActions.SET_ACTIVE_INDEX,
+				activeIndex: index,
+			}),
+		setOverscrollListener: (listener) =>
+			dispatch({
+				type: uiActions.SET_SCROLLBAR_OVERSCROLL_LISTENER,
+				onScroll: listener,
+			}),
+		flushOverscrollListener: () =>
+			dispatch({ type: uiActions.FLUSH_SCROLLBAR_OVERSCROLL_LISTENER }),
+	})
+)(Slider);

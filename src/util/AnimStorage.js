@@ -1,17 +1,16 @@
-import gsap from "gsap";
-
 class AnimStorage {
 	static anims = {
-		exit: [], entry: []
+		exit: [],
+		entry: [],
 	};
 
 	static set = (name, anim) => {
 		this.anims[name].push(anim);
-	}
+	};
 
 	static setAsFirst = (name, anim) => {
 		this.anims[name].unshift(anim);
-	}
+	};
 
 	static get = (name) => this.anims[name];
 
@@ -19,7 +18,7 @@ class AnimStorage {
 		delete this.anims[name];
 
 		this.anims[name] = [];
-	}
+	};
 
 	static play = (name, clear = true) => {
 		try {
@@ -32,8 +31,7 @@ class AnimStorage {
 				setTimeout(() => {
 					anim.play(0);
 
-					if (key + 1 === animArr.length && clear)
-						this.clear(name);
+					if (key + 1 === animArr.length && clear) this.clear(name);
 				}, delay * 1000);
 
 				delay += anim.duration();
@@ -51,7 +49,7 @@ class AnimStorage {
 		});
 
 		return duration;
-	}
+	};
 }
 
 export default AnimStorage;

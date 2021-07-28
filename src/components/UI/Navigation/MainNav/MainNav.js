@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 /*class Nav {
 	nav = {};
@@ -63,7 +63,7 @@ const MainNav = (props) => {
 
 	const navItems = routes.map(({ path, name }, index) => {
 		return (
-			<li className='nav_item' key={index}>
+			<li className="nav_item" key={index}>
 				<NavLink to={path} onClickCapture={onclick} key={index}>
 					{name}
 				</NavLink>
@@ -72,8 +72,8 @@ const MainNav = (props) => {
 	});
 
 	return (
-		<nav className='mainNav'>
-			<ul className='nav nav-column'>{navItems}</ul>
+		<nav className="mainNav">
+			<ul className="nav nav-column">{navItems}</ul>
 		</nav>
 	);
 };
