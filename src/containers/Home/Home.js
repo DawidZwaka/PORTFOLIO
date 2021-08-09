@@ -1,43 +1,72 @@
-import image from "../../assets/landing.webp";
+import image from "../../assets/img.png";
+import dawidzwaka from "../../assets/dawid_zwaka.svg";
+import arrow from "../../assets/arrow_1.svg";
 import React from "react";
 import HomeAnims from "./HomeAnims";
 import AnimatableContainer from "../../HOC/AnimatableContainer";
+import gsap, { Power3, Power1 } from "gsap/gsap-core";
+import CoveredPicture from "../../components/CoveredPicture";
 
 class Home extends React.Component {
+	componentDidMount() {
+		gsap.timeline()
+			.delay(0.5)
+			.addLabel("start")
+			.to(
+				".coveredPicture__cover",
+				{
+					right: "0",
+					duration: 0.7,
+					ease: Power3.easeIn,
+				},
+				"start"
+			)
+			.set(".coveredPicture__img", { opacity: 1 })
+			.addLabel("showImage")
+			.to(
+				".coveredPicture__cover",
+				{
+					left: "100%",
+					duration: 0.7,
+					ease: Power1.easeOut,
+				},
+				"showImage"
+			)
+			.fromTo(
+				".coveredPicture__img",
+				{
+					transform: "scale(120%)",
+				},
+				{
+					duration: 0.7,
+					transform: "scale(100%)",
+					ease: Power1.easeOut,
+				},
+				"showImage"
+			);
+	}
+
 	render() {
 		const render = (
-			<AnimatableContainer AnimClass={HomeAnims}>
-				<main className="landing">
-					<div className="landing__img">
-						<svg viewBox="0 0 500 500" fill="none">
-							<circle
-								className="landing__circle"
-								cx="250"
-								cy="250"
-								r="250"
-								stroke="white"
-								strokeWidth="2"
-								strokeOpacity=".3"
-							></circle>
-						</svg>
-						<img
-							className="landing__figure"
-							src={image}
-							onLoad={this.handleLoaded}
-							alt="landing page hero"
-						/>
-					</div>
-					<section className="landing__content">
-						<h1>Hello there!</h1>
-						<p className="lh-180">
-							You are propably here because, you would like to
-							know a little bit more about me and what i do, so
-							let’s get started!
-						</p>
-						<button>NEXT</button>
-					</section>
-				</main>
-			</AnimatableContainer>
+			<main className="landing">
+				<h1 class="heading">
+					Self-taught programmer, clean code lover and full stack
+					developer.
+				</h1>
+				<div className="landing__portrait">
+					{/*<img
+						className="portrait"
+						src={image}
+						onLoad={this.handleLoaded}
+						alt="landing page hero"
+                    />*/}
+					<CoveredPicture src={image} alt="" />
+				</div>
+				{/*<aside className="landing__see_portfolio">
+					<span className="text">see my work</span>
+					<img src={arrow} class="arrow" alt="arrow icon" />
+        </aside>*/}
+			</main>
 		);
 
 		return render;

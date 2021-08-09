@@ -1,0 +1,85 @@
+.bottomBar {
+	grid-area: scroll-down;
+	display: flex;
+	margin: 0 $generalPadding $generalPadding $generalPadding;
+}
+
+.scroll_down {
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	width: $scrollDownHeight;
+	height: $scrollDownHeight;
+	z-index: 1;
+	//animation: 2s top-down;
+	//animation-iteration-count: infinite;
+
+	&__inner {
+		background-color: map-get($colors, "primary");
+		height: $scrollDownHeight;
+		width: 2px;
+		display: flex;
+		justify-content: center;
+
+		&::after,
+		&::before {
+			content: "";
+			position: absolute;
+			width: $scrollDownHeight;
+			height: $scrollDownHeight;
+			border-radius: 50%;
+			border: 2px solid map-get($colors, "primary");
+		}
+		&::after {
+			transform: translate(50%, 50%);
+		}
+		&::before {
+			transform: translate(-50%, 50%);
+		}
+	}
+}
+
+.temp {
+	margin-left: auto;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	transform: rotate(-90deg) translate(100%, 25%);
+	transform-origin: bottom right;
+	font-size: 0.8rem;
+
+	&::after,
+	&::before {
+		content: "";
+		width: 40px;
+		height: 2px;
+		background-color: map-get($colors, "primary");
+	}
+	&::before {
+		margin-right: 10px;
+	}
+	&::after {
+		margin-left: 10px;
+	}
+}
+
+@keyframes top-down {
+	0% {
+		transform: translateY(0);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(50%);
+		opacity: 1;
+	}
+}
+
+@keyframes top-down-inner {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(50%);
+	}
+}

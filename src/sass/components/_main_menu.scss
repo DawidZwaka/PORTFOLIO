@@ -1,177 +1,226 @@
-.topbar {
-	display: flex;
-	align-items: center;
-	padding: $topbarHeight/2 $topbarHeight/2 0 $topbarHeight/2;
-	grid-area: topbar;
-	z-index: map-get($zIndex, 'topbar');
-}
-
-.toggler {
-	display: flex;
-	position: relative;
-	align-items: center;
-	justify-content: center;
-	width: 2.5rem;
-	height: $topbarHeight/2;
-	left: 0;
-	&::after,
-	&::before {
-		content: '';
-		width: 1.7rem;
-		height: 2px;
-		border-radius: 1%;
-		background: map-get($colors, 'primary');
-		position: absolute;
-	}
-	&::after {
-		top: 1em;
-	}
-	&::before {
-		bottom: 1em;
-	}
-}
-.logo {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	color: map-get($colors, 'primary');
-	font-size: 1.2rem;
-	letter-spacing: 0.7rem;
-	padding-left: 0.6rem;
-	text-transform: uppercase;
-	font-weight: 300;
-}
+/* FIXED */
 .fixed {
+	//structure
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0;
-	bottom: 0;
-	padding: $pageMargin;
+	width: 100vw;
+	height: 100%;
+	z-index: map-get($zIndex, "fixed");
 	display: grid;
-	grid-template: ( $topbarHeight 1fr auto ) / auto;
-	grid-template-areas: 
-	"topbar"
-	"content"
-	"footer";
-	clip-path: circle(0%);
-	background-color: map-get($colors, 'primary');
-	z-index: map-get($zIndex, 'fixed');
+	grid-template: ($topbarHeight 1fr auto) / auto;
+	grid-template-areas:
+		"topbar"
+		"content"
+		"footer";
+
+	//animating
+	will-change: clip-path;
+	clip-path: circle(0% at 0% 0%);
+
+	//styling
+	padding: $pageMargin;
+	background-color: map-get($colors, "primary");
+
 	&_content {
 		grid-area: content;
+		display: flex;
+		padding: $generalPadding;
 	}
+
+	.main_nav {
+		font-size: 3rem;
+		line-height: 3.5rem;
+		display: flex;
+		align-items: center;
+		font-weight: 700;
+
+		&__list {
+			padding: 0;
+		}
+
+		&__item {
+			a {
+				display: flex;
+				color: map-get($colors, "secondary");
+				transition: transform $transition-time;
+				align-items: center;
+
+				&::after {
+					content: "";
+					transition: width $transition-time;
+					width: 0;
+					margin-left: 1rem;
+					height: 5px;
+					background-color: map-get($colors, "secondary");
+				}
+				&:hover {
+					&::after {
+						width: 3rem;
+					}
+					transform: translateX(30px);
+				}
+			}
+		}
+	}
+
 	&_footer {
 		grid-area: footer;
-	}
-	.logo {
-		color: map-get($colors, 'secondary');
-	}
-	.toggler {
-		&::after,
-		&::before {
-			background-color: map-get($colors, 'secondary');
+		padding: $generalPadding;
+
+		hr {
+			height: 2px;
+			background-color: map-get($colors, "secondary");
+			width: 100%;
+			margin: 2rem 0;
 		}
-		&::after {
-			top: auto;
-			transform: rotate(45deg);
-		}
-		&::before {
-			bottom: auto;
-			transform: rotate(-45deg);
+
+		&__inner {
+			display: flex;
+			justify-content: space-between;
+
+			button,
+			a,
+			strong {
+				color: map-get($colors, "secondary");
+				text-transform: uppercase;
+				font-weight: 900;
+			}
+
+			.lang_switcher {
+				button {
+					&:first-of-type {
+						background-image: $fixedGradient;
+						background-clip: text;
+						color: transparent;
+					}
+					font-weight: 700;
+					margin-left: 0.5rem;
+				}
+			}
+
+			.socials {
+				display: flex;
+				a {
+					letter-spacing: 0.1rem;
+					margin-bottom: 0.4rem;
+					margin-left: 0.7rem;
+				}
+			}
 		}
 	}
 }
-.mainNav {
-	width: 100%;
-	height: 100%;
-	font-size: 3rem;
+/* FIXED END */
+
+/* TOPBAR */
+.topbar {
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	font-weight: 700;
-	a {
+	justify-content: space-between;
+	padding: $generalPadding $generalPadding 0 $generalPadding;
+	grid-area: topbar;
+	z-index: map-get($zIndex, "topbar");
+
+	.toggler {
+		width: $toggler-base * 2;
+		height: $toggler-base * 2;
+
+		.toggler__icon {
+			width: $toggler-base * 2;
+			height: $toggler-base;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: space-around;
+
+			&::after,
+			&::before {
+				content: "";
+				width: $toggler-base * 1.7;
+				height: 2px;
+				background: map-get($colors, "primary");
+			}
+
+			&::after {
+				width: $toggler-base * 1.2;
+			}
+
+			&--cross {
+				&::after,
+				&::before {
+					position: absolute;
+				}
+
+				&::after {
+					top: auto;
+					width: $toggler-base * 1.7;
+					transform: rotate(45deg);
+				}
+
+				&::before {
+					bottom: auto;
+					transform: rotate(-45deg);
+				}
+			}
+
+			&--secondary {
+				&::after,
+				&::before {
+					background-color: map-get($colors, "secondary");
+				}
+			}
+		}
+	}
+
+	.logo {
+		color: map-get($colors, "primary");
+		font-size: 1rem;
+		letter-spacing: 1.7rem;
+		margin-right: -1.7rem;
+		text-transform: uppercase;
+		font-weight: 300;
+
+		&--secondary {
+			color: map-get($colors, "secondary");
+		}
+		@include breakpoint-up(lg) {
+			margin-right: 0;
+			position: absolute;
+			left: 50%;
+			padding-left: 1.7rem;
+			transform: translateX(-50%);
+		}
+	}
+
+	$contactBtnSize: 80px;
+	.contactBtn {
 		position: relative;
 		display: flex;
-		color: map-get($colors, 'secondary');
-		transition: transform $transition-time;
+		justify-content: center;
 		align-items: center;
-		&::after {
-			content: '';
-			transition: width $transition-time;
-			width: 0;
-			margin-left: 1rem;
-			height: 5px;
-			background-color: map-get($colors, 'secondary');
-		}
-		&:hover {
-			&::after {
-				width: 3rem;
-			}
-			transform: translateX(30px);
-		}
-	}
-}
-
-.nav {
-	list-style: none;
-	display: flex;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	&-column {
-		flex-direction: column;
-		.nav {
-			&_item {
-				margin: 1rem 0;
-			}
-		}
-	}
-	&_item {
-		margin-right: 1rem;
-		a {
-			text-decoration: none;
-		}
-	}
-}
-
-//temporary styling
-
-hr {
-	height: 2px;
-	background-color: map-get($colors, 'secondary');
-	width: 100%;
-	margin: 2rem 0;
-}
-.footer {
-	display: flex;
-	justify-content: space-between;
-	a,
-	strong {
-		color: map-get($colors, 'secondary');
-	}
-	.lang {
-		strong {
+		width: $contactBtnSize;
+		height: $contactBtnSize;
+		animation: 20s rotate linear infinite;
+		//animation-iteration-count: infinite;
+		.rotateText {
+			position: absolute;
+			width: 20px;
+			height: $contactBtnSize;
+			transform-origin: center center;
 			text-transform: uppercase;
-			font-weight: 300;
-		}
-		a {
-			&:first-of-type {
-				background-image: $fixedGradient;
-				background-clip: text;
-				color: transparent;
-			}
-			font-weight: 700;
-			margin-left: 0.5rem;
+			text-align: center;
+
+			@include rotate-text(7, 360deg);
 		}
 	}
-	.socials {
-		display: flex;
-		a {
-			text-transform: uppercase;
-			font-weight: 700;
-			letter-spacing: 0.1rem;
-			margin-bottom: 0.4rem;
-			margin-left: 0.7rem;
-		}
+}
+/* TOPBAR END*/
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }

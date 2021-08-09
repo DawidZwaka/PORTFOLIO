@@ -1,28 +1,24 @@
 .coveredPicture {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    align-items: flex-start;
-    &__cover {  
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        background-color: lighten( map-get($colors, 'secondary'), 0.2 );
-        z-index: 1;
-    }
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-start;
+	&__cover {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background-color: lighten(map-get($colors, "secondary"), 20);
+		z-index: 1;
+	}
 
-    &__img {
-        position: relative;
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        opacity: 0;
-    }
-}
-
-.bg-master {
-    transform: scale(1.2);
+	&__img {
+		position: relative;
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		opacity: 0;
+	}
 }

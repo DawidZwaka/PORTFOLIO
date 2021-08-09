@@ -1,7 +1,28 @@
 @mixin breakpoint-down($breakpoint) {
-	$breakpoint-width: map-get($grid-breakpoints, $breakpoint );
+	$breakpoint-width: map-get($grid-breakpoints, $breakpoint);
 
-	@media (max-width: $breakpoint-width + 'px') {
+	@media (max-width: $breakpoint-width + "px") {
 		@content;
+	}
+}
+
+@mixin breakpoint-up($breakpoint) {
+	$breakpoint-width: map-get($grid-breakpoints, $breakpoint);
+
+	@media (min-width: $breakpoint-width + "px") {
+		@content;
+	}
+}
+
+@mixin rotate-text(
+	$num-letters: 100,
+	$angle-span: 180deg,
+	$angle-offset: 0deg
+) {
+	$angle-per-char: $angle-span / $num-letters;
+	@for $i from 1 through $num-letters {
+		&--#{$i} {
+			transform: rotate($angle-offset + $angle-per-char * $i);
+		}
 	}
 }

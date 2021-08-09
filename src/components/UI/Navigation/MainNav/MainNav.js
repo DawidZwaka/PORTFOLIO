@@ -63,7 +63,7 @@ const MainNav = (props) => {
 
 	const navItems = routes.map(({ path, name }, index) => {
 		return (
-			<li className="nav_item" key={index}>
+			<li className="main_nav__item" key={index}>
 				<NavLink to={path} onClickCapture={onclick} key={index}>
 					{name}
 				</NavLink>
@@ -72,8 +72,8 @@ const MainNav = (props) => {
 	});
 
 	return (
-		<nav className="mainNav">
-			<ul className="nav nav-column">{navItems}</ul>
+		<nav className="main_nav">
+			<ul className="main_nav__list">{navItems}</ul>
 		</nav>
 	);
 };

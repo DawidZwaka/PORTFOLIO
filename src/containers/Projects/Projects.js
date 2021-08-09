@@ -31,6 +31,8 @@ class Projects extends React.Component {
 	];
 
 	render() {
+		console.log("projects");
+
 		return (
 			<AnimatableContainer AnimClass={ProjectsAnims}>
 				<main className="projects">

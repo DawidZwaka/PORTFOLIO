@@ -1,0 +1,38 @@
+.cursor {
+	&__circle,
+	&__dot {
+		z-index: map-get($zIndex, "cursor");
+		border-radius: 50%;
+		position: fixed;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	}
+
+	&__circle {
+		border: 1px solid map-get($colors, "primary");
+		width: $circleSize;
+		height: $circleSize;
+
+		transition: border-color 0.3s;
+	}
+
+	&__dot {
+		background-color: map-get($colors, "primary");
+		width: $dotSize;
+		height: $dotSize;
+
+		transition: background-color 0.3s;
+	}
+
+	&--menuActive {
+		&.cursor {
+			&__dot {
+				background-color: map-get($colors, "secondary");
+			}
+
+			&__circle {
+				border-color: map-get($colors, "secondary");
+			}
+		}
+	}
+}

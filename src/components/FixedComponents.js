@@ -14,6 +14,12 @@ const FixedComponents = (props) => {
 
 	return (
 		<>
+			<div className="bottomBar">
+				<div className="scroll_down">
+					<div class="scroll_down__inner"></div>
+				</div>
+				<div className="temp">HOME</div>
+			</div>
 			<Cover />
 			{sliderStateEnum.INACTIVE !== sliderState ? (
 				<SliderControlers activeIndex={activeSlideIndex} amount={3} />

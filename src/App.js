@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import gsap from "gsap/gsap-core";
 import React from "react";
 import { connect } from "react-redux";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+//import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 //containers
 import Home from "./containers/Home/Home";
@@ -14,15 +14,15 @@ import Contact from "./containers/Contact/Contact";
 //components
 import MainMenu from "./components/UI/Navigation/MainMenu/MainMenu";
 import AppBackground from "./components/UI/Background";
-import ScrollBar from "./components/UI/ScrollBar/ScrollBar";
+//import ScrollBar from "./components/UI/ScrollBar/ScrollBar";
 import FixedComponents from "./components/FixedComponents";
+import Cursor from "./components/UI/Cursor";
 
-//redux
+//util
 import uiActions from "./redux/actions/UI";
 import animActions from "./redux/actions/Animations";
 
 class App extends React.Component {
-	//const { pathname } = useLocation();
 	constructor(props) {
 		super(props);
 
@@ -36,7 +36,7 @@ class App extends React.Component {
 		{ name: "Contact", path: "/contact", Component: Contact },
 	];
 
-	setScrollbarRefToGlobalState = () => {
+	/*setScrollbarRefToGlobalState = () => {
 		const { scrollbar } = this.scrollbarRef;
 
 		gsap.registerPlugin(ScrollTrigger);
@@ -50,6 +50,8 @@ class App extends React.Component {
 			},
 		});
 
+		scrollbar.track.xAxis.element.remove();
+
 		scrollbar.addListener(ScrollTrigger.update);
 
 		this.props.setScrollbar(scrollbar);
@@ -58,6 +60,10 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.setScrollbarRefToGlobalState();
+	}*/
+
+	componentDidMount() {
+		console.log(this);
 	}
 
 	getComponentRoutes = () => {
@@ -76,18 +82,14 @@ class App extends React.Component {
 	render() {
 		return (
 			<>
-				<ScrollBar
-					dumping={0.01}
-					autohide="true"
-					ref={(ref) => (this.scrollbarRef = ref)}
-				>
-					<main id="mainContent">
-						<MainMenu routes={this.routes} />
-						<Switch>{this.getComponentRoutes()}</Switch>
-						<AppBackground />
-					</main>
-				</ScrollBar>
+				<Route
+					component={(props) => (
+						<MainMenu routes={this.routes} {...props} />
+					)}
+				/>
+				<Switch>{this.getComponentRoutes()}</Switch>
 				<FixedComponents />
+				<Cursor />
 			</>
 		);
 	}

@@ -1,13 +1,17 @@
-import MainNav from "../MainNav/MainNav";
-import { withRouter } from "react-router-dom";
+//node_modules
 import gsap, { Power3 } from "gsap";
 import React from "react";
 import { connect } from "react-redux";
-import actions from "../../../../redux/actions/UI";
+
+//components
+import MainNav from "../MainNav/MainNav";
 import Animate from "../../../../HOC/Animate";
-import Storage from "../../../../util/AnimStorage";
 import Topbar from "../TopBar/Topbar";
 import BgAnimControler from "../../../../util/BackgroundAnimControler";
+
+//util
+import Storage from "../../../../util/AnimStorage";
+import actions from "../../../../redux/actions/UI";
 
 /*const styling = {
 	fixed: {
@@ -24,20 +28,20 @@ const entryAnim = () => {
 
 	tl.fromTo(
 		".fixed",
-		{ clipPath: "circle(0% at 5.5rem 5.5rem)" },
+		{ clipPath: "circle(0% at 4rem 3.5rem)" },
 		{
-			clipPath: "circle(150% at 5.5rem 5.5rem)",
+			clipPath: "circle(140% at 4rem 3.5rem)",
 			ease: Power3.easeIn,
 		}
-	).staggerFrom(".nav_item", 0.4, { opacity: 0, x: 100 }, 0.1, "-= 0.2");
+	).from(".nav_item", 0.4, { opacity: 0, x: 100 }, 0.1, "-= 0.2");
 };
 
 const exitAnim = () => {
 	gsap.timeline().fromTo(
 		".fixed",
-		{ clipPath: "circle(150% at 5.5rem 5.5rem)" },
+		{ clipPath: "circle(140% at 4rem 3.5rem)" },
 		{
-			clipPath: "circle(0% at 5.5rem 5.5rem)",
+			clipPath: "circle(0% at 4rem 3.5rem)",
 			ease: Power3.easeOut,
 		}
 	);
@@ -75,13 +79,17 @@ class MainMenu extends React.PureComponent {
 	}
 
 	render() {
-		const { routes, toggleMenu } = this.props;
+		const { routes, toggleMenu, show } = this.props;
 
 		const render = (
 			<>
 				<Topbar onclick={toggleMenu} />
-				<div className="fixed">
-					<Topbar onclick={toggleMenu} classes="fixed_header" />
+				<div className={`fixed ${show ? "active" : ""}`}>
+					<Topbar
+						onclick={toggleMenu}
+						type="dark"
+						classes="fixed_header"
+					/>
 					<section className="fixed_content">
 						<MainNav
 							onclick={this.exitPageSequenceHandler}
@@ -90,8 +98,8 @@ class MainMenu extends React.PureComponent {
 					</section>
 					<footer className="fixed_footer">
 						<hr />
-						<div className="footer">
-							<div className="lang">
+						<div className="fixed_footer__inner">
+							<div className="lang_switcher">
 								<strong>Lang:</strong>
 								<button>EN</button>
 								<button>PL</button>
@@ -127,4 +135,4 @@ export default connect(
 			dispatch({ type: actions.TOGGLE_MENU });
 		},
 	})
-)(Animate(entryAnim, exitAnim)(withRouter(MainMenu)));
+)(Animate(entryAnim, exitAnim)(MainMenu));

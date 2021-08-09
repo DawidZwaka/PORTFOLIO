@@ -1,24 +1,26 @@
 //SETTING UP
-@import 'common/variables.scss';
-@import 'common/mixins.scss';
-@import 'common/fonts.scss';
-@import 'common/common.scss';
+@import "common/variables.scss";
+@import "common/mixins.scss";
+@import "common/fonts.scss";
+@import "common/common.scss";
 
 //CONTAINERS
-@import 'containers/home.scss';
-@import 'containers/about.scss';
-@import 'containers/projects.scss';
-@import 'containers/contact.scss';
+@import "containers/home.scss";
+@import "containers/about.scss";
+@import "containers/projects.scss";
+@import "containers/contact.scss";
 
 //COMPONENTS
-@import 'components/background.scss';
-@import 'components/loader.scss';
-@import 'components/main_menu.scss';
-@import 'components/slider.scss';
-@import 'components/covered_picture';
+//@import "components/background.scss";
+//@import "components/loader.scss";
+@import "components/main_menu.scss";
+//@import "components/slider.scss";
+@import "components/covered_picture";
+@import "components/scroll_down.scss";
+@import "components/cursor";
 
 //HELPERS
-@import 'helpers.scss';
+//@import "helpers.scss";
 
 .portal {
 	overflow: hidden;

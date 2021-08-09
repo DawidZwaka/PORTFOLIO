@@ -1,23 +1,24 @@
 $transition-time: 0.3s;
 
-$pageMargin: 3rem;
+$pageMargin: 10px;
 
-$topbarHeight: 4rem;
+$topbarHeight: 40px;
 
 $fixedGradient: linear-gradient(#0e798b, #13cb73);
 
 $colors: (
-	'primary': #fefefe,
-	'secondary': #090909,
-	'detailed': #0e798b,
+	"primary": #e9e4dd,
+	"secondary": #090909,
+	"detailed": #0e798b,
 );
 
 $zIndex: (
-	'background': 1,
-	'content': 2,
-	'topbar': 999,
-	'fixed': 1000,
-	'loader': 2000,
+	"background": 1,
+	"content": 2,
+	"topbar": 999,
+	"fixed": 1000,
+	"loader": 2000,
+	"cursor": 3000,
 );
 
 $grid-breakpoints: (
@@ -28,9 +29,17 @@ $grid-breakpoints: (
 	xxl: 1750,
 );
 
-
 $homeGridTemplate: (
 		$pageMargin $topbarHeight * 2 repeat(6, 1fr) $topbarHeight $pageMargin
-	) / ($pageMargin $topbarHeight repeat(9, 1fr) $topbarHeight $pageMargin); ;
+	) / ($pageMargin $topbarHeight repeat(9, 1fr) $topbarHeight $pageMargin);
 
-$contentMargin: ($pageMargin + $topbarHeight) $pageMargin $pageMargin $pageMargin;
+$contentMargin: ($pageMargin + $topbarHeight) $pageMargin $pageMargin
+	$pageMargin;
+
+/* components */
+$toggler-base: 20px;
+
+$scrollDownHeight: 40px;
+
+$dotSize: 7px;
+$circleSize: 40px;
