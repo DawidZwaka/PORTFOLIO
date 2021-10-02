@@ -1,27 +1,101 @@
+$contentWidth: 60%;
+$imgTabletsMaxWidth: 300px;
+
 .contact {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
+	max-width: 100%;
+	&__img {
+		width: 100% - $contentWidth;
+		height: 80%;
 
-	&_content {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+		@include breakpoint-up(md) {
+			width: $imgTabletsMaxWidth;
+			max-width: $imgTabletsMaxWidth;
+		}
+		img {
+			object-fit: cover;
+			z-index: -1;
+			left: 0;
+			height: 100%;
+			width: calc(100% + #{$generalPadding + $pageMargin});
+			right: 0;
+			transform: translateX(-#{$generalPadding + $pageMargin});
+
+			@include breakpoint-up(md) {
+				transform: unset;
+				width: 100%;
+			}
+		}
 	}
 
-	&_methods {
+	&__methods {
 		display: flex;
-		.column {
-			display: flex;
-			flex-direction: column;
-			&:first-of-type {
-				text-align: end;
-				margin-right: 0.5rem;
+		flex-direction: column;
+		width: $contentWidth;
+		padding-left: $generalPadding;
+
+		@include breakpoint-up(lg) {
+			flex-direction: row;
+		}
+
+		@include breakpoint-up(md) {
+			width: auto;
+			max-width: calc(100% - #{$imgTabletsMaxWidth});
+		}
+
+		.methods {
+			&__title {
+				position: relative;
+				width: 100%;
+				left: calc(100% + #{$generalPadding + $pageMargin});
+				transform: translateX(-100vw);
+				text-align: center;
+				line-height: 1;
+				margin-bottom: $generalPadding;
+
+				@include breakpoint-up(lg) {
+					position: absolute;
+					transform: translateY(-50%);
+					left: 0;
+				}
+
+				.portal {
+					width: 100vw;
+				}
 			}
-			a,
-			strong {
-				margin-bottom: 0.5rem;
+
+			&__content {
+				@include breakpoint-up(lg) {
+					display: flex;
+					transform: translateY(50%);
+				}
+
+				.column {
+					display: flex;
+					flex-direction: column;
+					margin-bottom: $generalPadding;
+
+					@include breakpoint-up(lg) {
+						padding: 0 $generalPadding * 3;
+					}
+
+					a,
+					strong {
+						margin-bottom: 0.5rem;
+					}
+					p {
+						margin: 0;
+					}
+					h4 {
+						text-transform: none;
+						margin: 0;
+						font-size: 1.5rem;
+						margin-bottom: $generalPadding/2;
+					}
+				}
 			}
 		}
 	}

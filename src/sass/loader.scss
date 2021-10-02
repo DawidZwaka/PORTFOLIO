@@ -1,0 +1,13 @@
+@import "./common/variables";
+@import "./common/keyframes";
+
+@font-face {
+	font-family: "Bigilla";
+	src: url("../assets/fonts/BigillaBold.woff2") format("woff2"),
+		url("../assets/fonts/BigillaBold.woff") format("woff");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@import "./components/loader";

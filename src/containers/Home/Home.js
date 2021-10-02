@@ -1,16 +1,21 @@
-import image from "../../assets/img.png";
-import dawidzwaka from "../../assets/dawid_zwaka.svg";
-import arrow from "../../assets/arrow_1.svg";
+/* vendors */
 import React from "react";
+import gsap, { Power3, Power1, Power2, Power4, Linear } from "gsap/gsap-core";
+
+/* components */
 import HomeAnims from "./HomeAnims";
 import AnimatableContainer from "../../HOC/AnimatableContainer";
-import gsap, { Power3, Power1 } from "gsap/gsap-core";
 import CoveredPicture from "../../components/CoveredPicture";
+import PortalBlock from "../../HOC/PortalBlock/PortalBlock";
+import Ladder from "../../components/Ladder";
+
+/* assets */
+import Sphere from "../../components/Sphere";
 
 class Home extends React.Component {
 	componentDidMount() {
-		gsap.timeline()
-			.delay(0.5)
+		/*gsap.timeline()
+			.delay(0.2)
 			.addLabel("start")
 			.to(
 				".coveredPicture__cover",
@@ -35,37 +40,75 @@ class Home extends React.Component {
 			.fromTo(
 				".coveredPicture__img",
 				{
-					transform: "scale(120%)",
+					scale: 1.2,
 				},
 				{
 					duration: 0.7,
-					transform: "scale(100%)",
+					scale: 1,
 					ease: Power1.easeOut,
 				},
 				"showImage"
 			);
+
+		gsap.timeline().delay(0.5).staggerFrom(
+			".heading .animText__inside",
+			0.9,
+			{
+				opacity: 0,
+				yPercent: 30,
+				ease: Power1.easeInOut,
+			},
+			0.2
+		);*/
+
+		//gsap.set(".sphere", { height: "100%" });
+
+		const rungs = document.querySelectorAll(".ladder__rung");
+		const firstHalf = [...rungs].splice(0, rungs.length / 2);
+		const secondHalf = [...rungs].splice(rungs.length / 2, rungs.length);
+
+		const animOneProps = {
+			duration: 0.8,
+			height: "100%",
+			stagger: {
+				each: 0.01,
+				ease: Linear.easeNone,
+			},
+		};
+
+		gsap.timeline({ delay: 2 })
+			.from(
+				".landing__sphere",
+				{
+					duration: 3,
+					height: 170,
+					ease: Power2.easeInOut,
+				},
+				"-=1.6"
+			)
+			.from(
+				".landing__title",
+				{
+					yPercent: 50,
+					opacity: 0,
+					duration: 1.5,
+					ease: Power2.easeOut,
+				},
+				"landing"
+			)
+			.to(firstHalf.reverse(), animOneProps, "landing")
+			.to(secondHalf, animOneProps, "landing");
 	}
 
 	render() {
 		const render = (
 			<main className="landing">
-				<h1 class="heading">
-					Self-taught programmer, clean code lover and full stack
-					developer.
-				</h1>
-				<div className="landing__portrait">
-					{/*<img
-						className="portrait"
-						src={image}
-						onLoad={this.handleLoaded}
-						alt="landing page hero"
-                    />*/}
-					<CoveredPicture src={image} alt="" />
-				</div>
-				{/*<aside className="landing__see_portfolio">
-					<span className="text">see my work</span>
-					<img src={arrow} class="arrow" alt="arrow icon" />
-        </aside>*/}
+				<Ladder className="landing__ladder" />
+				<Sphere className="landing__sphere" />
+				<h6 className="landing__title">
+					Don't be a<br />
+					stranger
+				</h6>
 			</main>
 		);
 

@@ -1,8 +1,18 @@
-import actions from '../../../actions/UI';
+import actions from "../../../actions/UI";
 
 const initState = {
+	visible: false,
 	menuActive: false,
-	scrollbar: undefined,
+	pointer: {
+		isClickable: false,
+		target: null,
+		text: null,
+	},
+	followerActive: true,
+	cursorPosition: {
+		left: 0,
+		top: 0,
+	},
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -11,23 +21,35 @@ export default (state = initState, action) => {
 		case actions.TOGGLE_MENU: {
 			return { ...state, menuActive: !state.menuActive };
 		}
-		case actions.SET_SCROLLBAR: {
-			return { ...state, scrollbar: action.scrollbar };
+		case actions.TOGGLE_FOLLOWER: {
+			return { ...state, followerActive: !state.followerActive };
 		}
-		case actions.SET_SCROLLBAR_OVERSCROLL_LISTENER: {
-			const updatedScrollbar = state.scrollbar;
-
-			updatedScrollbar.options.plugins.overscroll.onScroll = action.onScroll;
-
-
-			return { ...state, scrollbar: updatedScrollbar };
+		case actions.TURN_POINTER_INTO_BUTTON: {
+			const { target, text } = action;
+			return {
+				...state,
+				pointer: { ...state.pointer, isClickable: true, target, text },
+			};
 		}
-		case actions.FLUSH_SCROLLBAR_OVERSCROLL_LISTENER: {
-			const updatedScrollbar = state.scrollbar;
+		case actions.TURN_POINTER_INTO_BULLET: {
+			return {
+				...state,
+				pointer: { ...state.pointer, isClickable: false },
+			};
+		}
+		case actions.UPDATE_CURSOR_POSITION: {
+			const { left, top } = action;
 
-			updatedScrollbar.options.plugins.overscroll.onScroll = null;
-
-			return { ...state, scrollbar: updatedScrollbar };
+			return {
+				...state,
+				cursorPosition: {
+					left,
+					top,
+				},
+			};
+		}
+		case actions.SET_VISIBILITY: {
+			return { ...state, visible: action.visibility };
 		}
 		default:
 			return state;

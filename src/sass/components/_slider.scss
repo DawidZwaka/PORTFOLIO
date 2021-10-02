@@ -1,11 +1,14 @@
-.verticalSlider {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 100%;
-}
+$mockupWidth: 60vw;
 
 .verticalSlider {
+	//margin-top: 15vh;
+	//display: flex;
+	//flex-direction: column;
+	//width: 100%;
+	//height: 100%;
+}
+
+/*.verticalSlider {
 	display: grid;
 	grid-template: (1fr $topbarHeight $pageMargin) / (
 			$pageMargin $topbarHeight 1fr $pageMargin + $topbarHeight
@@ -14,15 +17,15 @@
 		'. controls slide slide'
 		'. .        .     .    '
 		'. .        .     .    ';
-	@include breakpoint-down('md'){
+	@include breakpoint-down('lg'){
 		grid-template-areas: 
 		'slide slide slide slide'
 		'controls     .     .     .    '
 		'.     .     .     .    ';
 	};
-}
+}*/
 
-$spacer: 2rem;
+/*$spacer: 2rem;
 
 .controls {
 	grid-area: controls;
@@ -33,46 +36,185 @@ $spacer: 2rem;
 }
 .content {
 	padding-left: $spacer;
-}
+}*/
 
 .slide {
-	grid-area: slide;
+	position: relative;
+	margin-top: $generalPadding * 2;
+	display: grid;
+	align-items: center;
+
+	grid-template: (
+			auto $generalPadding * 2 auto $generalPadding * 2 auto
+				$generalPadding * 2 auto $generalPadding * 2 auto
+				$generalPadding
+		) / 30% 40% 30%;
+	grid-template-areas:
+		"header header header"
+		". . ."
+		"teaser teaser teaser"
+		". . ."
+		"features features  mobile1"
+		". . ."
+		"mobile2 tech tech"
+		". . ."
+		"stack stack stack"
+		". . .";
+
+	@include breakpoint-up(lg) {
+		grid-template: repeat(2, auto) $generalPadding * 2 auto $generalPadding * 2 auto / (
+				minmax(0, 1fr) $generalPadding * 6 minmax(0, 1fr)
+			);
+		grid-template-areas:
+			"header     . mobile1 "
+			"teaser     . mobile1 "
+			". . ."
+			"features   . tech"
+			". . ."
+			"stack stack stack";
+	}
+
+	&__header {
+		grid-area: header;
+		position: relative;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+
+		@include breakpoint-up(lg) {
+			justify-content: flex-start;
+		}
+
+		.header {
+			&__title {
+				text-align: end;
+			}
+
+			&__iterator {
+				position: absolute;
+				left: calc(#{-$pageMargin -$generalPadding} - 30%);
+				//bottom: 0;
+				//transform: translate(80%, $generalPadding/2);
+				//font-family: "Barlow Condensed";
+				line-height: 0.75em;
+				font-weight: 500;
+				font-size: clamp(250px, 70vw, 500px);
+				color: rgba(map-get($colors, "primary"), 0.1);
+
+				@include breakpoint-up(lg) {
+					left: unset;
+					right: 0;
+					transform: translate(20%, 20%);
+				}
+			}
+		}
+	}
+
+	&__teaser {
+		grid-area: teaser;
+		text-align: center;
+
+		@include breakpoint-up(lg) {
+			text-align: start;
+		}
+	}
+
+	&__subtitle {
+		margin-bottom: $generalPadding/2;
+	}
+
+	&__features {
+		grid-area: features;
+	}
+
+	&__tech {
+		grid-area: tech;
+		@include breakpoint-up(lg) {
+			align-self: start;
+		}
+	}
+
+	&__mockup {
+		@include breakpoint-up(lg) {
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&--mobile1 {
+			grid-area: mobile1;
+		}
+		&--mobile2 {
+			position: relative;
+			right: -100%;
+			grid-area: mobile2;
+
+			@include breakpoint-up(lg) {
+				display: none;
+			}
+
+			.mockup {
+				&__inside {
+					position: relative;
+					right: $mockupWidth;
+				}
+			}
+		}
+
+		.mockup {
+			&__inside {
+				width: $mockupWidth;
+
+				@include breakpoint-up(lg) {
+					width: auto;
+					height: 80%;
+
+					img {
+						height: 100%;
+					}
+				}
+			}
+		}
+	}
+
+	&__stack {
+		grid-area: stack;
+		display: flex;
+		justify-content: center;
+	}
+	/*grid-area: slide;
 	display: grid;
 	position: relative;
-	grid-template: auto auto auto auto / (
-			5 * $spacer 1fr 3 * $spacer 1fr 5 * $spacer $pageMargin +
-				$topbarHeight
+	grid-template: repeat(4, minmax(0, auto)) / (
+			minmax(0, 1fr) 6 * $spacer minmax(0, 1fr)
 		);
 	grid-template-areas:
-		'. header     . img img img'
-		'. teaser     . img img img'
-		'. features   . tech .   . '
-		'. stack stack stack .   .';
+		"header     . img "
+		"teaser     . img "
+		"features   . tech"
+		"stack stack stack";
 	@media screen {
-		
 	}
 	justify-items: start;
-	align-items: start;
+	//align-items: start;
 	align-content: end;
 	&_header {
 		grid-area: header;
 		position: relative;
 		margin-bottom: $spacer;
-		transform: translateX(-20%);
-	}
-	&_title {
-		text-align: end;
-		margin: 0;
+		//transform: translateX(-20%);
 	}
 	&_iterator {
 		position: absolute;
 		right: 0;
 		bottom: 0;
 		transform: translate(80%, $spacer/2);
+		font-family: "Barlow Condensed";
 		line-height: 80%;
-		font-weight: 600;
+		font-weight: 500;
 		font-size: 25rem;
-		color: rgba(map-get($colors, 'primary'), 0.1);
+		color: rgba(map-get($colors, "primary"), 0.1);
 	}
 	&_teaser {
 		grid-area: teaser;
@@ -90,10 +232,28 @@ $spacer: 2rem;
 		flex-direction: column;
 	}
 	&_img {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: $generalPadding * 2;
 		grid-area: img;
+
 		.mobile {
-			max-width: 10vw;
-			bottom: 12%;
+			max-width: 60%;
+			position: relative;
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border: 50px solid rgba(0, 0, 0, 0.3);
+				border-radius: 35px;
+				filter: blur(14px);
+				transform: translate(15px, 9px);
+				z-index: -1;
+			}
+
+			//bottom: 12%;
 		}
 		.desktop {
 			max-width: 60vw;
@@ -117,16 +277,11 @@ $spacer: 2rem;
 				margin: 0 0.5rem;
 			}
 		}
-	}
+	}*/
 }
 
-
-
-
-
-
 //temp
-.slide_img {
+/*.slide_img {
 	display: flex;
 	align-items: flex-end;
 	position: relative;
@@ -138,62 +293,53 @@ $spacer: 2rem;
 			position: absolute;
 		}
 		&:last-child {
-
 		}
 	}
-}
-.bg-master {
-	//transform: scale(1.2);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}*/
 
 .controls {
-	margin: 0 4rem;
+	margin: 0;
+	width: $pageMargin + $generalPadding;
 	position: fixed;
 	height: 100vh;
 	top: 0;
+	left: 0;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	z-index: 10000000;
 
 	&__inside {
 		display: flex;
-	flex-direction: column;
-	justify-content: center;
+		flex-direction: column;
+		justify-content: center;
+		width: 100%;
 	}
 }
 .controler {
-	width: 3px;
-	height: 1.7rem;
-	background-color: rgba(map-get($colors, 'primary'), 0.1);
+	display: flex;
+	justify-content: center;
+	width: 100%;
 	cursor: pointer;
 	margin: 3px 0;
-	transition: background-color $transition-time;
 
+	&__inside {
+		pointer-events: none;
+		transition: background-color $transition-time;
+		width: 3px;
+		height: 1.7rem;
+		background-color: rgba(map-get($colors, "primary"), 0.1);
+	}
 	&.active {
-		background-color: map-get($colors, 'primary');
+		.controler {
+			&__inside {
+				background-color: map-get($colors, "primary");
+			}
+		}
 	}
 	&:hover {
-		background-color: rgba(map-get($colors, 'primary'), 0.6);
+		.controler {
+			&__inside {
+				background-color: rgba(map-get($colors, "primary"), 0.6);
+			}
+		}
 	}
 }

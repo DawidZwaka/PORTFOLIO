@@ -3,24 +3,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-
-//components
-import App from "./App";
+import loadable from "@loadable/component";
 
 //utils
 import store from "./redux/store";
 
 //styling
+import "./sass/loader.scss";
 import "./sass/index.scss";
-import "./sass/common/_variables.scss";
+
+//components
+import Loader from "./components/Loader/Loader";
+const App = loadable(() => import("./App"));
 
 ReactDOM.render(
 	<Provider store={store}>
 		<React.StrictMode>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
+			<App />
+			<Loader />
 		</React.StrictMode>
 	</Provider>,
 	document.getElementById("root")

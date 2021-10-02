@@ -1,0 +1,15 @@
+@import "../../sass/common/variables";
+@import "../../sass/common/mixins";
+
+.techIcon {
+	svg {
+		max-width: 30px;
+
+		@include breakpoint-up(lg) {
+			width: 100%;
+		}
+	}
+	path {
+		fill: map-get($colors, "primary");
+	}
+}

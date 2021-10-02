@@ -1,6 +1,8 @@
+//vendors
 import React from "react";
-import AnimatableContainer from "../../HOC/AnimatableContainer";
-import ContactAnims from "./ContactAnims";
+
+//images
+import Image from "../../assets/images/contactImage.png";
 
 const contactData = [
 	{ type: "phone", value: 508833686, href: "tel:508833686" },
@@ -34,27 +36,39 @@ const ContactMethods = () => {
 	});
 
 	return (
-		<div class="contact_methods">
-			<div className="column">{methods}</div>
-			<div className="column">{values}</div>
+		<div class="methods__content">
+			<div className="column">
+				<h4>Socials</h4>
+				<p>LinkedIn</p>
+				<p>Facebook</p>
+				<p>Instagram</p>
+				<p>Github</p>
+			</div>
+			<div className="column">
+				<h4>Standard methods</h4>
+				<p>508833686</p>
+				<p>zwakadawid@gmail.com</p>
+				<p>Dawid Żwaka</p>
+			</div>
 		</div>
 	);
 };
 
 const Contact = () => {
 	return (
-		<AnimatableContainer AnimClass={ContactAnims}>
-			<main className="contact">
-				<section className="contact_content">
-					<h1 class="portal">
+		<main className="contact">
+			<div className="contact__img">
+				<img src={Image} />
+			</div>
+			<div className="contact__methods">
+				<h4 class="methods__title">
+					<div className="portal">
 						<span>Contact</span>
-					</h1>
-					<div className="contact_methods">
-						<ContactMethods />
 					</div>
-				</section>
-			</main>
-		</AnimatableContainer>
+				</h4>
+				<ContactMethods className="methods__content" />
+			</div>
+		</main>
 	);
 };
 

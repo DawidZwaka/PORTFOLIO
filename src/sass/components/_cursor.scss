@@ -1,6 +1,6 @@
 .cursor {
-	&__circle,
-	&__dot {
+	&__follower,
+	&__pointer {
 		z-index: map-get($zIndex, "cursor");
 		border-radius: 50%;
 		position: fixed;
@@ -8,29 +8,49 @@
 		pointer-events: none;
 	}
 
-	&__circle {
+	&__follower {
 		border: 1px solid map-get($colors, "primary");
 		width: $circleSize;
 		height: $circleSize;
 
-		transition: border-color 0.3s;
+		transition: border-color 0.3s, opacity 0.3s;
+
+		&--disable {
+			opacity: 0;
+		}
 	}
 
-	&__dot {
+	&__pointer {
 		background-color: map-get($colors, "primary");
 		width: $dotSize;
 		height: $dotSize;
+		color: transparent;
 
-		transition: background-color 0.3s;
+		transition: background-color 0.3s, width 0.3s ease-out,
+			height 0.3s ease-out;
+
+		&--clickable {
+			width: 100px;
+			height: 100px;
+			aspect-ratio: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: map-get($colors, "secondary");
+			font-size: 0.8rem;
+			font-weight: 900;
+			//pointer-events: unset;
+			//user-select: none;
+		}
 	}
 
 	&--menuActive {
 		&.cursor {
-			&__dot {
+			&__pointer {
 				background-color: map-get($colors, "secondary");
 			}
 
-			&__circle {
+			&__follower {
 				border-color: map-get($colors, "secondary");
 			}
 		}

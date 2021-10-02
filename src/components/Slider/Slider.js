@@ -1,164 +1,213 @@
+//vendors
 import React from "react";
-import ProjectSlide from "./ProjectSlide.js";
 import { connect } from "react-redux";
-import sliderActions from "../../redux/actions/Slider";
-import uiActions from "../../redux/actions/UI";
-import sliderState from "../../redux/reducers/reducers/Slider/SliderState";
+
+//components
+import ProjectSlide from "./slides/ProjectSlide.js";
+import Controlers from "./nav/Controlers";
+
+//util
+import GlobalLoader from "../../util/GlobalLoader/GlobalLoader";
+import loaderActions from "../../redux/actions/Loader.js";
+import timeout from "../../util/timeout.js";
+import sliderState from "./enums/SliderState";
 
 class Slider extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.props.setSliderState({ sliderState: sliderState.IDLE });
-
 		this.slides = [
 			{
-				title: ["SHOP", "_IN", "_NODE"],
+				title: ["SHOP", "IN", "NODE"],
 			},
 			{
-				title: ["TEST", "_IN", "_NODE"],
+				title: ["TEST", "IN", "NODE"],
 			},
 			{
-				title: ["TEST", "_IN", "_NODE"],
+				title: ["TEST", "IN", "NODE"],
 			},
 		];
 
 		this.state = {
 			scrollListenerActive: false,
+			startY: null,
+			currY: null,
+			activeIndex: 0,
+			currState: sliderState.IDLE,
 		};
 	}
+
+	getVectorFromGivenSlideIndex = (index) => {
+		const { activeIndex } = this.state;
+		let res = 0;
+
+		if (activeIndex < index) res = index - activeIndex;
+		else if (activeIndex > index) res = -activeIndex + index;
+
+		return res;
+	};
+
+	checkSlideVector = (vector) => {
+		const {
+			state: { activeIndex },
+			slides: { length },
+		} = this;
+		let res = 0;
+
+		if (vector >= 1 && activeIndex + vector <= length - 1) res = vector;
+		if (vector <= -1 && activeIndex + vector >= 0) res = vector;
+
+		return res;
+	};
 
 	/**
 	 * changeSlide set active slide depeneds on given vector
 	 *
 	 * if vector is 0 then do nothing
 	 *
-	 * if 1 then set next slide as active
+	 * if is higher than 1, set next slide as active depends on vector power
 	 *
-	 * if -1 then set prev slide as active
+	 * if is smaller than -1, set previous slide as active depends on vector power
 	 *
-	 * @param {number} vector one of them: [-1, 0, 1]
+	 * @param {number} vector natural number
 	 * @return {void}
 	 */
 	changeSlide = (vector) => {
-		const {
-			props: { activeIndex },
-			slides: { length },
-		} = this;
-		let flag = false;
-		let acRes = activeIndex;
+		const { activeIndex, currState } = this.state;
+		let vec = this.checkSlideVector(vector);
+		let acRes = activeIndex + vec;
 
-		if (vector === 1 && activeIndex !== length - 1) {
-			++acRes;
-			flag = true;
-		}
-
-		if (vector === -1 && activeIndex !== 0) {
-			--acRes;
-			flag = true;
-		}
-
-		if (flag) {
-			this.props.setActiveSlideIndex(acRes);
-			this.props.setSliderState(sliderState.IN_TRANSITION);
+		if (vec !== 0 && currState) {
+			this.setState({ ...this.state, activeIndex: acRes });
 		}
 	};
 
-	handleOverscrollEvent = () => {
-		const {
-			props: { scrollbar },
-		} = this;
+	/**
+	 * Run slide transition sequence and then inform parent component that transition end
+	 *
+	 * @return {void}
+	 */
+	changeSlideSequence = async (slideIndex) => {
+		const { currState } = this.state;
 
-		if (scrollbar && !this.state.scrollListenerActive) {
-			this.props.setOverscrollListener((overStatus) => {
-				if (this.props.currState !== sliderState.IN_TRANSITION) {
-					const yMomentum = overStatus.y;
-					let changingVector = 0;
-
-					if (yMomentum > 0) changingVector = 1;
-
-					if (yMomentum < 0) changingVector = -1;
-
-					if (changingVector) {
-						this.changeSlide(changingVector);
-					}
-				}
+		if (
+			this.checkSlideVector(slideIndex) !== 0 &&
+			currState !== sliderState.IN_TRANSITION
+		) {
+			this.setState({
+				...this.state,
+				currState: sliderState.IN_TRANSITION,
 			});
+			this.props.toggleLoader();
 
-			this.setState({ scrollListenerActive: true });
+			const loader = new GlobalLoader().getLoader();
+			const openDur = loader.getOpenAnim().duration() * 1000;
+			const closeDur = loader.getCloseAnim().duration() * 1000;
+
+			//scroll to top && close loader after open animation
+			await timeout(openDur);
+
+			window.scrollTo(0, 0);
+
+			await timeout(openDur + closeDur);
+			this.props.toggleLoader();
+
+			//change slide
+			//await timeout(openDur + closeDur);
+			this.changeSlide(slideIndex);
+
+			//close loader
+			//await timeout(openDur + closeDur);
+			//this.entryAnim.play(0);
 		}
 	};
-
-	deleteHandleOverscrollListener = () => {
-		const { props: scrollbar } = this;
-
-		scrollbar.options.plugins.overscroll.onScroll = null;
-	};
-
-	componentDidMount() {
-		this.handleOverscrollEvent();
-	}
-
-	componentDidUpdate() {
-		this.handleOverscrollEvent();
-	}
-
-	componentWillUnmount() {
-		this.props.setSliderState(sliderState.INACTIVE);
-		this.props.flushOverscrollListener();
-	}
 
 	handleControlClick = (ev) => {
 		const controler = ev.target,
 			slideIndex = parseInt(controler.getAttribute("data-slideindex"));
 
-		this.updateSlider(slideIndex);
+		const vec = this.getVectorFromGivenSlideIndex(slideIndex);
+
+		console.log(this.checkSlideVector(vec), this.state);
+
+		this.changeSlideSequence(vec);
 	};
 
-	transitionEndHandler = () => {
-		this.props.setSliderState(sliderState.IDLE);
+	handleWheel = (ev) => {
+		const { deltaY } = ev;
+		const viewportHeight = window.innerHeight;
+		const scrollFromTop = window.scrollY;
+		const pageHeight = document.body.clientHeight;
+
+		if (scrollFromTop + viewportHeight === pageHeight && deltaY > 0)
+			this.changeSlideSequence(1);
+
+		if (scrollFromTop === 0 && deltaY < 0) this.changeSlideSequence(-1);
 	};
+
+	startTouchMove = (ev) => {
+		const startY = ev.touches[0].pageY;
+
+		this.setState({ ...this.state, startY });
+	};
+
+	handleTouchMove = (ev) => {
+		const currY = ev.touches[0].pageY;
+		const { startY } = this.state;
+
+		if (document.scrollingElement.scrollTop === 0 && currY > startY)
+			this.changeSlideSequence(-1);
+
+		if (
+			window.scrollY > document.body.scrollHeight - window.innerHeight &&
+			currY < startY
+		)
+			this.changeSlideSequence(1);
+	};
+
+	componentDidMount() {
+		window.addEventListener("wheel", this.handleWheel);
+		document.addEventListener("touchmove", this.handleTouchMove, {
+			passive: true,
+		});
+		document.addEventListener("touchstart", this.startTouchMove, {
+			passive: true,
+		});
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("wheel", this.handleWheel);
+		document.removeEventListener("touchmove", this.handleTouchMove);
+		document.removeEventListener("touchstart", this.startTouchMove);
+	}
 
 	render() {
-		const {
-			props: { scrollbar, activeIndex },
-		} = this;
+		const { activeIndex } = this.state;
 
 		return (
 			<div className="verticalSlider">
 				<ProjectSlide
-					scrollbar={scrollbar}
 					slide={this.slides[activeIndex]}
-					onTransitionEnd={this.transitionEndHandler}
+					onTransitionEnd={() => {
+						console.log("anim end");
+						this.setState({
+							...this.state,
+							currState: sliderState.IDLE,
+						});
+
+						console.log(this.state);
+					}}
+				/>
+				<Controlers
+					activeIndex={activeIndex}
+					amount={this.slides.length}
+					onClick={this.handleControlClick}
 				/>
 			</div>
 		);
 	}
 }
 
-export default connect(
-	({ UI, Slider }) => ({
-		scrollbar: UI.scrollbar,
-		activeIndex: Slider.activeIndex,
-		currState: Slider.sliderState,
-	}),
-	(dispatch) => ({
-		setSliderState: (state) =>
-			dispatch({
-				type: sliderActions.SET_SLIDER_STATE,
-				sliderState: state,
-			}),
-		setActiveSlideIndex: (index) =>
-			dispatch({
-				type: sliderActions.SET_ACTIVE_INDEX,
-				activeIndex: index,
-			}),
-		setOverscrollListener: (listener) =>
-			dispatch({
-				type: uiActions.SET_SCROLLBAR_OVERSCROLL_LISTENER,
-				onScroll: listener,
-			}),
-		flushOverscrollListener: () =>
-			dispatch({ type: uiActions.FLUSH_SCROLLBAR_OVERSCROLL_LISTENER }),
-	})
-)(Slider);
+export default connect(null, (dispatch) => ({
+	toggleLoader: () => dispatch({ type: loaderActions.TOGGLE_LOADER }),
+}))(Slider);

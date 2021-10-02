@@ -9,7 +9,7 @@ $fixedGradient: linear-gradient(#0e798b, #13cb73);
 $colors: (
 	"primary": #e9e4dd,
 	"secondary": #090909,
-	"detailed": #0e798b,
+	"detailed": #ae7143,
 );
 
 $zIndex: (
@@ -39,7 +39,41 @@ $contentMargin: ($pageMargin + $topbarHeight) $pageMargin $pageMargin
 /* components */
 $toggler-base: 20px;
 
-$scrollDownHeight: 40px;
+$scrollDownSize: 25px;
 
 $dotSize: 7px;
 $circleSize: 40px;
+
+//mobile
+
+$minFontSize: 20px;
+$scaler: 3vw;
+$maxFontSize: 20px;
+$generalPadding: 20px;
+
+$headings-min: (
+	h1: 80px,
+	h2: 70px,
+	h3: 80px,
+	h4: 70px,
+	h5: 60px,
+	h6: 40px,
+);
+
+$headings-max: (
+	h1: 180px,
+	h2: 70px,
+	h3: 180px,
+	h4: 160px,
+	h5: 70px,
+	h6: 80px,
+);
+
+$headings-scalers: (
+	h1: 28vw,
+	h2: 20vw,
+	h3: 15vw,
+	h4: 15vw,
+	h5: 15vw,
+	h6: 15vw,
+);

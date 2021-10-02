@@ -1,0 +1,12 @@
+.horizontalList {
+	display: flex;
+	padding: 0;
+	list-style: none;
+	margin: 0 auto;
+
+	li {
+		padding: 0 1rem;
+		display: flex;
+		align-items: center;
+	}
+}

@@ -1,0 +1,39 @@
+$contactBtnSize: 80px;
+
+.circleButton {
+	display: none;
+	border-radius: 50%;
+
+	@include breakpoint-up(lg) {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: $contactBtnSize * (3/4);
+		height: $contactBtnSize * (3/4);
+		top: $contactBtnSize/2 - $topbarHeight/4;
+
+		&--secondary {
+			color: map-get($colors, "secondary");
+		}
+
+		&__letter {
+			position: absolute;
+			width: 20px;
+			font-size: 0.6rem;
+			height: $contactBtnSize;
+			transform-origin: center center;
+			text-transform: uppercase;
+			text-align: center;
+		}
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

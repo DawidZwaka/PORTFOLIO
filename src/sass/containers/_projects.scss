@@ -1,11 +1,2 @@
 .projects {
-	&_content {
-		display: flex;
-		z-index: 2;
-	}
-	&_bg {
-		z-index: 1;
-		grid-area: 1 / 1 / -1 / -1;
-		background-color: #030303;
-	}
 }

@@ -1,72 +1,31 @@
 .landing {
-	//display: grid;
-	//grid-template: auto auto / 1fr 1fr 3fr 2fr;
-	/*grid-template-areas:
-		" content . image ."
-		" .       . image .";*/
-	/*grid-template-areas: 100% / auto auto;
+	display: grid;
+	grid-template: minmax(0, 2fr) minmax(0, 4fr) minmax(0, 2fr) / 100%;
 	grid-template-areas:
-		"portrait"
-		"content";*/
-	display: flex;
-	justify-content: center;
+		"ladder"
+		"sphere"
+		"title";
 	align-items: center;
-	padding: $topbarHeight/2;
+	justify-items: center;
+	position: relative;
 
-	&__portrait {
-		grid-area: portrait;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-		z-index: -1;
-		position: absolute;
-		right: 25%;
-	}
+	&__ladder {
+		grid-area: ladder;
 
-	&__content {
-		grid-area: content;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin-top: 1rem;
-	}
-
-	.heading {
-		text-align: center;
-		text-transform: unset;
-		font-size: 7rem;
-		line-height: 7.5rem;
-
-		&:first-child,
-		&:last-child {
-			text-transform: unset;
-		}
-
-		&:last-child {
-			margin-bottom: 0;
+		&.ladder {
+			height: 40vh;
+			width: 70vw;
+			transform: translate(15vw, 30%);
 		}
 	}
 
-	/*&__see_portfolio {
-		position: absolute;
-		right: 0;
-		bottom: 20px;
-		margin: $pageMargin;
-		display: flex;
-		flex-direction: row-reverse;
-		align-items: center;
-		transform: rotate(-90deg) translateX(100%);
-		transform-origin: right bottom;
+	&__sphere {
+		grid-area: sphere;
+	}
 
-		.text {
-			opacity: 0.2;
-			font-size: 1.3rem;
-		}
-
-		.arrow {
-			margin-right: 10px;
-			transform: rotate(90deg);
-			width: 12px;
-		}
-	}*/
+	&__title {
+		grid-area: title;
+		margin: auto 0 $generalPadding 0;
+		text-transform: none;
+	}
 }

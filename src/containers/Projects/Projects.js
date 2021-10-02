@@ -31,16 +31,10 @@ class Projects extends React.Component {
 	];
 
 	render() {
-		console.log("projects");
-
 		return (
-			<AnimatableContainer AnimClass={ProjectsAnims}>
-				<main className="projects">
-					<section className="projects_content">
-						<Slider slides={this.slides} />
-					</section>
-				</main>
-			</AnimatableContainer>
+			<main className="projects">
+				<Slider slides={this.slides} />
+			</main>
 		);
 	}
 }

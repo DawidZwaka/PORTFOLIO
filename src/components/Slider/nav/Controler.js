@@ -1,12 +1,11 @@
-import { forwardRef } from 'react';
-
-const Controler = ({ onclick, slideIndex, active }, ref) => (
+const Controler = ({ onClick, slideIndex, active, key }) => (
 	<button
-		ref={ref}
-		className={`controler ${active ? 'active' : ''}`}
-		onClick={onclick}
+		className={`controler ${active ? "active" : ""}`}
+		onClick={onClick}
 		data-slideindex={slideIndex}
-	></button>
+	>
+		<span className="controler__inside" data-slideIndex={key}></span>
+	</button>
 );
 
-export default forwardRef(Controler);
+export default Controler;

@@ -1,20 +1,115 @@
+$aboutImageWidth: 90%;
+$sideTitleFontSize: 30vw;
+@include breakpoint-up(xl) {
+	$sideTitleFontSize: 10vw;
+}
 .about {
 	display: grid;
-	padding: 2*$pageMargin 6*$pageMargin;
-    grid-template: auto auto auto / 1fr $pageMargin*2 1fr;
+	grid-template:
+		repeat(2, auto) $generalPadding * 2 repeat(2, auto) $generalPadding * 2 auto / calc(
+			#{$sideTitleFontSize} - #{($generalPadding + $pageMargin)}
+		)
+		minmax(0, auto);
 	grid-template-areas:
-		'title  .   img   '
-		'about1 .  about2 '
-		'skills . learning';
+		"title title"
+		"image image"
+		". ."
+		"sideTitle about1"
+		"sideTitle about2"
+		". ."
+		"techStack techStack";
+	padding-top: $generalPadding * 2;
 	align-items: center;
 	justify-content: center;
+	justify-items: start;
+
+	@include breakpoint-up(md) {
+		grid-template:
+			auto $generalPadding * 2 auto $generalPadding * 2 auto / 1fr
+			$generalPadding minmax(0, 1fr);
+		grid-template-areas:
+			"title  .  image"
+			". . ."
+			"about1 .  about2"
+			". . ."
+			"techStack techStack techStack";
+	}
+
+	@include breakpoint-up(xl) {
+		grid-template: auto 40px auto 40px auto / 100px 5fr minmax(0, 150px) 5fr 100px;
+		grid-template-areas:
+			"title title . image sideTitle"
+			". . . . ."
+			"about1 about1 . about2 about2"
+			". . . . ."
+			"techStack techStack techStack techStack techStack";
+	}
 
 	&__title {
 		grid-area: title;
+		margin: 0;
+		z-index: 1;
 	}
 
 	&__image {
-		grid-area: img;
+		grid-area: image;
+		width: $aboutImageWidth;
+		margin-top: -$generalPadding * 6;
+		position: relative;
+		margin-left: calc(
+			#{$generalPadding + $pageMargin} + #{100% - $aboutImageWidth}
+		);
+
+		@include breakpoint-up(md) {
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			img {
+				object-fit: cover;
+			}
+		}
+	}
+
+	&__sideTitle {
+		//position: absolute;
+		grid-area: sideTitle;
+		z-index: -1;
+		display: flex;
+		justify-content: center;
+		opacity: 0.2;
+		aspect-ratio: 1;
+		margin-left: -$pageMargin - $generalPadding;
+
+		.sideTitle {
+			&__inner {
+				font-size: $sideTitleFontSize;
+				transform-origin: left top;
+				transform: rotate(90deg) translateY(-100%);
+				margin: 0;
+				height: 1em;
+				line-height: 75%;
+				width: 100%;
+				text-align: center;
+				display: flex;
+				align-items: flex-end;
+				justify-content: center;
+			}
+		}
+
+		@include breakpoint-up(md) {
+			display: none;
+		}
+
+		@include breakpoint-up(xl) {
+			display: flex;
+			height: 100%;
+			.sideTitle {
+				&__inner {
+					font-size: 170px;
+				}
+			}
+		}
 	}
 
 	&__content {
@@ -27,11 +122,20 @@
 		}
 	}
 
-	&__skills {
-		grid-area: skills;
-	}
-
-	&__learning {
-		grid-area: learning;
+	&__techStack {
+		grid-area: techStack;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		ul {
+			margin: $generalPadding 0;
+		}
+		.techStack {
+			&__title {
+				text-align: center;
+			}
+		}
 	}
 }
