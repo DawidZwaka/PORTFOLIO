@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.231.5/containers/javascript-node
+{
+	"name": "Node.js",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick a Node version: 16, 14, 12.
+		// Append -bullseye or -buster to pin to an OS version.
+		// Use -bullseye variants on local arm64/Apple Silicon.
+		"args": { "VARIANT": "16-bullseye" }
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/zsh",
+		"html.autoClosingTags": true,
+		"html.suggest.html5": true,
+		"html.format.endWithNewline": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true
+		},
+		"editor.formatOnSave": true,
+		"git.suggestSmartCommit": false,
+		"javascript.updateImportsOnFileMove.enabled": "always",
+		"workbench.iconTheme": "vscode-icons",
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"[javascript]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		},
+		"prettier.tabWidth": 4,
+		"prettier.useTabs": true,
+		"editor.detectIndentation": false,
+		"tabnine.experimentalAutoImports": true,
+		"workbench.colorTheme": "August - Material Ocean",
+		"window.zoomLevel": 1,
+		"terminal.integrated.shellIntegration.enabled": true,
+		"terminal.integrated.fontFamily": "Anonymice Nerd Font Mono"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"inci-august.august-themes",
+		"BitBelt.converttoasciiart",
+		"vscode-icons-team.vscode-icons",
+		"esbenp.prettier-vscode",
+		"2gua.rainbow-brackets",
+		"TabNine.tabnine-vscode",
+		"rangav.vscode-thunder-client",
+		"liximomo.sftp",
+		"GitHub.remotehub"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [3000],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "npm i",
+
+	"containerEnv": {},
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "root"
+}
